@@ -29,8 +29,10 @@ npm run dev            # http://localhost:8081
 - Env: `VITE_API_URL`, `VITE_PUBLIC_SITE_URL` (set before build / redeploy after URL change)
 
 ### Vercel
-- Import this repo
-- Root Directory: `.`
-- Build: `npm run build`
-- Env: same `VITE_*` vars  
-- Note: app uses Nitro `node-server`; if Vercel SSR fails, use Render Web Service instead.
+1. Import this repo (Root Directory = `.` if repo is only portal)
+2. Framework Preset: **TanStack Start** (or leave auto via `vercel.json`)
+3. **Do not** set Output Directory to `dist` — leave blank / auto
+4. Env: `VITE_API_URL`, `VITE_PUBLIC_SITE_URL`
+5. Redeploy after pushing these config fixes
+
+Build uses Nitro `vercel` preset automatically when `VERCEL=1`.
