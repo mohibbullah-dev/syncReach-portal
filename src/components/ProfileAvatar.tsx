@@ -1,7 +1,9 @@
 import { User } from "lucide-react";
 
+import { User } from "lucide-react";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { isRealProfileImage } from "@/lib/profile-image";
+import { faceCropAvatarUrl } from "@/lib/profile-image";
 import { cn } from "@/lib/utils";
 
 type ProfileAvatarProps = {
@@ -21,12 +23,16 @@ export function ProfileAvatar({
   className,
   iconClassName,
 }: ProfileAvatarProps) {
-  const image = isRealProfileImage(src) ? src!.trim() : undefined;
+  const image = faceCropAvatarUrl(src, 256) || undefined;
 
   return (
     <Avatar className={cn("h-9 w-9", className)}>
       {image ? (
-        <AvatarImage src={image} alt={name ?? "Profile"} className="object-cover" />
+        <AvatarImage
+          src={image}
+          alt={name ?? "Profile"}
+          className="object-cover object-top"
+        />
       ) : null}
       <AvatarFallback className="bg-slate-100 text-slate-500">
         <User className={cn("h-4 w-4", iconClassName)} aria-hidden />
