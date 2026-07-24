@@ -142,11 +142,16 @@ function AdminGate() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!ready || isAuthPage) return;
+    if (!ready) return;
+    if (pathname === "/signup") {
+      void navigate({ to: "/login" });
+      return;
+    }
+    if (isAuthPage) return;
     if (!user) {
       void navigate({ to: "/login" });
     }
-  }, [ready, user, isAuthPage, navigate]);
+  }, [ready, user, isAuthPage, pathname, navigate]);
 
   if (isAuthPage) {
     return <Outlet />;

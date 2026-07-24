@@ -2,12 +2,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   CalendarDays,
-  Eye,
-  FileImage,
   Images,
+  Mail,
   MessageSquareQuote,
   Plus,
   Sparkles,
+  Tag,
 } from "lucide-react";
 import {
   Area,
@@ -27,9 +27,16 @@ import { useAdminAuth } from "@/components/admin/AdminAuthProvider";
 import { ProfileAvatar } from "@/components/ProfileAvatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import type { ContactMessage } from "@/data/contact";
 import type { GalleryItem } from "@/data/gallery";
+import type { PricingPlan } from "@/data/pricing";
 import type { Review } from "@/data/reviews";
-import { getCmsGallery, getCmsReviews } from "@/lib/cms-store";
+import {
+  getCmsGallery,
+  getCmsMessages,
+  getCmsPricing,
+  getCmsReviews,
+} from "@/lib/cms-store";
 
 export const Route = createFileRoute("/")({
   component: AdminDashboard,
@@ -58,19 +65,29 @@ function AdminDashboard() {
   const firstName = user?.name.split(" ")[0] ?? "there";
   const [reviews, setReviews] = useState<Review[]>([]);
   const [galleryItems, setGalleryItems] = useState<GalleryItem[]>([]);
+  const [messages, setMessages] = useState<ContactMessage[]>([]);
+  const [plans, setPlans] = useState<PricingPlan[]>([]);
 
   useEffect(() => {
-    void Promise.all([getCmsReviews(), getCmsGallery()])
-      .then(([r, g]) => {
+    void Promise.all([
+      getCmsReviews(),
+      getCmsGallery(),
+      getCmsMessages().catch(() => [] as ContactMessage[]),
+      getCmsPricing().catch(() => [] as PricingPlan[]),
+    ])
+      .then(([r, g, m, p]) => {
         setReviews(r);
         setGalleryItems(g);
+        setMessages(m);
+        setPlans(p);
       })
       .catch((e) => console.error(e));
   }, []);
 
   const publishedGallery = galleryItems.filter((g) => g.published).length;
   const featuredReviews = reviews.filter((r) => r.featured).length;
-  const mediaCount = galleryItems.length + reviews.filter((r) => r.mediaUrl).length;
+  const unreadMessages = messages.filter((m) => !m.read).length;
+  const livePlans = plans.filter((p) => p.published).length;
 
   const contentMix = useMemo(
     () => [
@@ -90,48 +107,64 @@ function AdminDashboard() {
             Welcome back, {firstName} 👋
           </h1>
           <p className="mt-1 text-sm text-slate-500">
-            CMS overview for reviews, gallery, and site content.
+            A quick look at your website content.
           </p>
         </div>
         <div className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-600 shadow-sm">
           <CalendarDays className="h-4 w-4 text-[#0061FF]" />
-          Jul 17, 2026 — Jul 23, 2026
+          This week
         </div>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <AdminStatCard
-          title="Total reviews"
+          title="Reviews"
           value={String(reviews.length)}
-          delta={`${featuredReviews} featured on home`}
+          hint={
+            featuredReviews
+              ? `${featuredReviews} shown on homepage`
+              : "Customer reviews on your site"
+          }
           icon={MessageSquareQuote}
           tone="blue"
         />
         <AdminStatCard
-          title="Gallery items"
+          title="Gallery"
           value={String(galleryItems.length)}
-          delta={`${publishedGallery} published`}
+          hint={
+            publishedGallery
+              ? `${publishedGallery} photos & videos live`
+              : "Photos & videos"
+          }
           icon={Images}
           tone="purple"
         />
         <AdminStatCard
-          title="Media assets"
-          value={String(mediaCount)}
-          delta="Ready for Cloudinary"
-          icon={FileImage}
+          title="Messages"
+          value={String(messages.length)}
+          hint={
+            unreadMessages
+              ? `${unreadMessages} new from contact form`
+              : "From website visitors"
+          }
+          icon={Mail}
           tone="green"
         />
         <AdminStatCard
-          title="Public visibility"
-          value="Live"
-          delta="Site + reviews + gallery"
-          icon={Eye}
+          title="Pricing plans"
+          value={String(plans.length)}
+          hint={
+            livePlans
+              ? `${livePlans} visible on website`
+              : "Packages on your site"
+          }
+          icon={Tag}
           tone="orange"
         />
       </div>
 
       <div className="grid gap-4 xl:grid-cols-12">
-        <div className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-[0_8px_30px_-18px_rgba(15,23,42,0.18)] xl:col-span-8">
+        <div className="rounded-[1.35rem] border border-slate-200/70 bg-white p-5 shadow-[0_12px_40px_-24px_rgba(15,23,42,0.28)] xl:col-span-8">
           <div className="flex items-center justify-between gap-3">
             <div>
               <h2 className="font-semibold text-slate-900">Publishing overview</h2>
@@ -171,7 +204,7 @@ function AdminDashboard() {
           </div>
         </div>
 
-        <div className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-[0_8px_30px_-18px_rgba(15,23,42,0.18)] xl:col-span-4">
+        <div className="rounded-[1.35rem] border border-slate-200/70 bg-white p-5 shadow-[0_12px_40px_-24px_rgba(15,23,42,0.28)] xl:col-span-4">
           <div className="flex items-center justify-between">
             <h2 className="font-semibold text-slate-900">Recent content</h2>
             <Link to="/reviews" className="text-sm font-medium text-[#0061FF] hover:underline">
@@ -180,7 +213,10 @@ function AdminDashboard() {
           </div>
           <ul className="mt-4 space-y-3">
             {reviews.slice(0, 5).map((r) => (
-              <li key={r.id} className="flex items-center gap-3 rounded-xl border border-slate-100 px-3 py-2.5">
+              <li
+                key={r.id}
+                className="flex items-center gap-3 rounded-2xl border border-slate-100 bg-slate-50/50 px-3 py-2.5 transition hover:border-[#0061FF]/25 hover:bg-[#F4F8FF]"
+              >
                 <ProfileAvatar name={r.name} src={r.avatar} className="h-9 w-9" />
                 <div className="min-w-0 flex-1">
                   <div className="truncate text-sm font-medium text-slate-900">{r.name}</div>
@@ -198,7 +234,7 @@ function AdminDashboard() {
       </div>
 
       <div className="grid gap-4 lg:grid-cols-12">
-        <div className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-[0_8px_30px_-18px_rgba(15,23,42,0.18)] lg:col-span-7">
+        <div className="rounded-[1.35rem] border border-slate-200/70 bg-white p-5 shadow-[0_12px_40px_-24px_rgba(15,23,42,0.28)] lg:col-span-7">
           <div className="flex items-center justify-between">
             <h2 className="font-semibold text-slate-900">Recent activity</h2>
             <Sparkles className="h-4 w-4 text-[#0061FF]" />
@@ -218,9 +254,9 @@ function AdminDashboard() {
           </ul>
         </div>
 
-        <div className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-[0_8px_30px_-18px_rgba(15,23,42,0.18)] lg:col-span-5">
+        <div className="rounded-[1.35rem] border border-slate-200/70 bg-white p-5 shadow-[0_12px_40px_-24px_rgba(15,23,42,0.28)] lg:col-span-5">
           <h2 className="font-semibold text-slate-900">Content mix</h2>
-          <p className="text-sm text-slate-500">Breakdown of CMS content types</p>
+          <p className="text-sm text-slate-500">What your site is made of</p>
           <div className="mt-2 flex items-center gap-4">
             <div className="h-44 w-44 shrink-0">
               <ResponsiveContainer width="100%" height="100%">

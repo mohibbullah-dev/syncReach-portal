@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { uploadToCloudinary } from "@/lib/cloudinary-upload";
+import { roleLabel } from "@/lib/admin-auth";
 
 export const Route = createFileRoute("/profile")({
   component: AdminProfilePage,
@@ -94,6 +95,8 @@ function AdminProfilePage() {
         </h1>
         <p className="mt-1 text-sm text-slate-500">
           Update your name, email, password, and profile photo.
+          {" · "}
+          <span className="font-medium text-slate-700">{roleLabel(user.role)}</span>
         </p>
       </div>
 

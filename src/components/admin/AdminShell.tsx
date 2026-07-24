@@ -8,10 +8,12 @@ import {
   Images,
   LayoutDashboard,
   LogOut,
+  Mail,
   Menu,
   MessageSquareQuote,
   Search,
-  Settings,
+  Shield,
+  Tag,
   UserCircle,
   Users,
 } from "lucide-react";
@@ -19,6 +21,7 @@ import {
 import { AdminUserAvatar } from "@/components/admin/AdminUserAvatar";
 import { useAdminAuth } from "@/components/admin/AdminAuthProvider";
 import markUrl from "@/assets/syncreach-mark.png";
+import { isSuperAdmin, roleLabel } from "@/lib/admin-auth";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -38,13 +41,14 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 
-const NAV = [
+const BASE_NAV = [
   { to: "/", label: "Dashboard", icon: LayoutDashboard, exact: true },
+  { to: "/messages", label: "Messages", icon: Mail },
   { to: "/reviews", label: "Reviews", icon: MessageSquareQuote },
   { to: "/gallery", label: "Gallery", icon: Images },
   { to: "/media", label: "Media", icon: FolderOpen },
   { to: "/team", label: "Team", icon: Users },
-  { to: "/settings", label: "Settings", icon: Settings },
+  { to: "/pricing", label: "Pricing", icon: Tag },
 ] as const;
 
 function NavLinks({
@@ -55,11 +59,19 @@ function NavLinks({
   onNavigate?: () => void;
 }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const { user } = useAdminAuth();
+  const nav = [
+    ...BASE_NAV,
+    ...(isSuperAdmin(user)
+      ? [{ to: "/users", label: "Users", icon: Shield, exact: false as const }]
+      : []),
+  ];
 
   return (
     <nav className="flex flex-1 flex-col gap-1 px-3">
-      {NAV.map((item) => {
-        const active = item.exact
+      {nav.map((item) => {
+        const exact = "exact" in item && item.exact;
+        const active = exact
           ? pathname === item.to
           : pathname === item.to || pathname.startsWith(`${item.to}/`);
         const Icon = item.icon;
@@ -118,9 +130,9 @@ function SidebarBody({
 
       {!collapsed && (
         <div className="mx-3 mb-3 mt-auto rounded-2xl border border-slate-200/80 bg-gradient-to-br from-[#E8F0FF] to-white p-4">
-          <div className="text-sm font-semibold text-slate-900">CMS ready</div>
+          <div className="text-sm font-semibold text-slate-900">Your website</div>
           <p className="mt-1 text-xs leading-relaxed text-slate-500">
-            Manage reviews & gallery for the public site. API wiring comes next.
+            Changes you make here show up on the live SyncReach site.
           </p>
           <Button
             asChild
@@ -243,7 +255,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
                   />
                   <div className="hidden leading-tight text-left sm:block">
                     <div className="text-sm font-semibold text-slate-900">{user?.name ?? "Admin"}</div>
-                    <div className="text-[11px] text-slate-500">{user?.role ?? "Admin"}</div>
+                    <div className="text-[11px] text-slate-500">{roleLabel(user?.role)}</div>
                   </div>
                 </button>
               </DropdownMenuTrigger>
@@ -258,9 +270,6 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
                     <UserCircle className="mr-2 h-4 w-4" />
                     Profile
                   </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link to="/settings">Settings</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   className="text-red-600 focus:text-red-600"

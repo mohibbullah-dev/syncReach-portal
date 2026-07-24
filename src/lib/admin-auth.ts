@@ -4,11 +4,13 @@
 
 import { apiFetch, getApiUrl } from "@/lib/api";
 
+export type AdminRole = "SuperAdmin" | "Admin";
+
 export type AdminUser = {
   id: string;
   name: string;
   email: string;
-  role: "Admin" | "Editor";
+  role: AdminRole;
   avatarUrl?: string;
   createdAt: string;
 };
@@ -84,24 +86,6 @@ export async function signIn(email: string, password: string): Promise<AuthResul
   }
 }
 
-export async function signUp(input: {
-  name: string;
-  email: string;
-  password: string;
-  avatarUrl?: string;
-}): Promise<AuthResult> {
-  try {
-    const data = await apiFetch("/auth/signup", {
-      method: "POST",
-      body: JSON.stringify(input),
-    });
-    setSession(data.user, data.token);
-    return { ok: true, user: data.user };
-  } catch (e) {
-    return { ok: false, error: e instanceof Error ? e.message : "Sign up failed." };
-  }
-}
-
 export async function updateProfile(patch: {
   name?: string;
   email?: string;
@@ -127,10 +111,15 @@ export function signOut() {
   clearSession();
 }
 
-export const DEMO_CREDENTIALS = {
-  email: "admin@syncreach.com",
-  password: "admin123",
-} as const;
+export function isSuperAdmin(user: AdminUser | null | undefined) {
+  return user?.role === "SuperAdmin";
+}
+
+export function roleLabel(role?: string) {
+  if (role === "SuperAdmin") return "Super Admin";
+  if (role === "Admin") return "Admin";
+  return role || "Admin";
+}
 
 export function apiBaseUrl() {
   return getApiUrl("");

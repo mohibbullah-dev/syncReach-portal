@@ -13,11 +13,14 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as MediaRouteImport } from './routes/media'
+import { Route as MessagesRouteImport } from './routes/messages'
+import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as ReviewsRouteImport } from './routes/reviews'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as TeamRouteImport } from './routes/team'
+import { Route as UsersRouteImport } from './routes/users'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -37,6 +40,16 @@ const LoginRoute = LoginRouteImport.update({
 const MediaRoute = MediaRouteImport.update({
   id: '/media',
   path: '/media',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MessagesRoute = MessagesRouteImport.update({
+  id: '/messages',
+  path: '/messages',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PricingRoute = PricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProfileRoute = ProfileRouteImport.update({
@@ -64,28 +77,39 @@ const TeamRoute = TeamRouteImport.update({
   path: '/team',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UsersRoute = UsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/gallery': typeof GalleryRoute
   '/login': typeof LoginRoute
   '/media': typeof MediaRoute
+  '/messages': typeof MessagesRoute
+  '/pricing': typeof PricingRoute
   '/profile': typeof ProfileRoute
   '/reviews': typeof ReviewsRoute
   '/settings': typeof SettingsRoute
   '/signup': typeof SignupRoute
   '/team': typeof TeamRoute
+  '/users': typeof UsersRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/gallery': typeof GalleryRoute
   '/login': typeof LoginRoute
   '/media': typeof MediaRoute
+  '/messages': typeof MessagesRoute
+  '/pricing': typeof PricingRoute
   '/profile': typeof ProfileRoute
   '/reviews': typeof ReviewsRoute
   '/settings': typeof SettingsRoute
   '/signup': typeof SignupRoute
   '/team': typeof TeamRoute
+  '/users': typeof UsersRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -93,11 +117,14 @@ export interface FileRoutesById {
   '/gallery': typeof GalleryRoute
   '/login': typeof LoginRoute
   '/media': typeof MediaRoute
+  '/messages': typeof MessagesRoute
+  '/pricing': typeof PricingRoute
   '/profile': typeof ProfileRoute
   '/reviews': typeof ReviewsRoute
   '/settings': typeof SettingsRoute
   '/signup': typeof SignupRoute
   '/team': typeof TeamRoute
+  '/users': typeof UsersRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -106,33 +133,42 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/login'
     | '/media'
+    | '/messages'
+    | '/pricing'
     | '/profile'
     | '/reviews'
     | '/settings'
     | '/signup'
     | '/team'
+    | '/users'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/gallery'
     | '/login'
     | '/media'
+    | '/messages'
+    | '/pricing'
     | '/profile'
     | '/reviews'
     | '/settings'
     | '/signup'
     | '/team'
+    | '/users'
   id:
     | '__root__'
     | '/'
     | '/gallery'
     | '/login'
     | '/media'
+    | '/messages'
+    | '/pricing'
     | '/profile'
     | '/reviews'
     | '/settings'
     | '/signup'
     | '/team'
+    | '/users'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -140,11 +176,14 @@ export interface RootRouteChildren {
   GalleryRoute: typeof GalleryRoute
   LoginRoute: typeof LoginRoute
   MediaRoute: typeof MediaRoute
+  MessagesRoute: typeof MessagesRoute
+  PricingRoute: typeof PricingRoute
   ProfileRoute: typeof ProfileRoute
   ReviewsRoute: typeof ReviewsRoute
   SettingsRoute: typeof SettingsRoute
   SignupRoute: typeof SignupRoute
   TeamRoute: typeof TeamRoute
+  UsersRoute: typeof UsersRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -175,6 +214,20 @@ declare module '@tanstack/react-router' {
       path: '/media'
       fullPath: '/media'
       preLoaderRoute: typeof MediaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/messages': {
+      id: '/messages'
+      path: '/messages'
+      fullPath: '/messages'
+      preLoaderRoute: typeof MessagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pricing': {
+      id: '/pricing'
+      path: '/pricing'
+      fullPath: '/pricing'
+      preLoaderRoute: typeof PricingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/profile': {
@@ -212,6 +265,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TeamRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/users': {
+      id: '/users'
+      path: '/users'
+      fullPath: '/users'
+      preLoaderRoute: typeof UsersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -220,11 +280,14 @@ const rootRouteChildren: RootRouteChildren = {
   GalleryRoute: GalleryRoute,
   LoginRoute: LoginRoute,
   MediaRoute: MediaRoute,
+  MessagesRoute: MessagesRoute,
+  PricingRoute: PricingRoute,
   ProfileRoute: ProfileRoute,
   ReviewsRoute: ReviewsRoute,
   SettingsRoute: SettingsRoute,
   SignupRoute: SignupRoute,
   TeamRoute: TeamRoute,
+  UsersRoute: UsersRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

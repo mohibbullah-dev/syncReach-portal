@@ -1,5 +1,5 @@
 ﻿import { useEffect, useState } from "react";
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -8,7 +8,6 @@ import { AuthPageShell } from "@/components/admin/AuthPageShell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { DEMO_CREDENTIALS } from "@/lib/admin-auth";
 
 export const Route = createFileRoute("/login")({
   component: AdminLoginPage,
@@ -46,12 +45,6 @@ function AdminLoginPage() {
     void navigate({ to: "/" });
   };
 
-  const fillDemo = () => {
-    setEmail(DEMO_CREDENTIALS.email);
-    setPassword(DEMO_CREDENTIALS.password);
-    setError("");
-  };
-
   if (!ready || user) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-[#F5F7FB]">
@@ -64,14 +57,7 @@ function AdminLoginPage() {
     <AuthPageShell
       title="Sign in"
       subtitle="Access the SyncReach CMS admin portal."
-      footer={
-        <>
-          Don&apos;t have an account?{" "}
-          <Link to="/signup" className="font-semibold text-[#0061FF] hover:underline">
-            Sign up
-          </Link>
-        </>
-      }
+      footer={<>Accounts are created by a Super Admin only.</>}
     >
       <form onSubmit={onSubmit} className="space-y-4">
         <div className="space-y-2">
@@ -125,16 +111,6 @@ function AdminLoginPage() {
         >
           {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : "Sign in"}
         </Button>
-
-        <button
-          type="button"
-          onClick={fillDemo}
-          className="w-full rounded-xl border border-dashed border-slate-200 bg-slate-50 px-3 py-2.5 text-left text-xs text-slate-500 transition hover:border-[#0061FF]/40 hover:bg-[#E8F0FF]/50"
-        >
-          <span className="font-semibold text-slate-700">Demo account</span>
-          <br />
-          {DEMO_CREDENTIALS.email} · {DEMO_CREDENTIALS.password}
-        </button>
       </form>
     </AuthPageShell>
   );

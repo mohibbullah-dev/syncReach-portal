@@ -12,18 +12,10 @@ import {
   restoreSession,
   signIn as authSignIn,
   signOut as authSignOut,
-  signUp as authSignUp,
   updateProfile as authUpdateProfile,
   type AdminUser,
   type AuthResult,
 } from "@/lib/admin-auth";
-
-type SignUpInput = {
-  name: string;
-  email: string;
-  password: string;
-  avatarUrl?: string;
-};
 
 type UpdateProfileInput = {
   name?: string;
@@ -36,7 +28,6 @@ type AdminAuthContextValue = {
   user: AdminUser | null;
   ready: boolean;
   signIn: (email: string, password: string) => Promise<AuthResult>;
-  signUp: (input: SignUpInput) => Promise<AuthResult>;
   updateProfile: (input: UpdateProfileInput) => Promise<AuthResult>;
   signOut: () => void;
 };
@@ -67,12 +58,6 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
     return result;
   }, []);
 
-  const signUp = useCallback(async (input: SignUpInput) => {
-    const result = await authSignUp(input);
-    if (result.ok) setUser(result.user);
-    return result;
-  }, []);
-
   const updateProfile = useCallback(async (input: UpdateProfileInput) => {
     const result = await authUpdateProfile(input);
     if (result.ok) setUser(result.user);
@@ -85,8 +70,8 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const value = useMemo(
-    () => ({ user, ready, signIn, signUp, updateProfile, signOut }),
-    [user, ready, signIn, signUp, updateProfile, signOut],
+    () => ({ user, ready, signIn, updateProfile, signOut }),
+    [user, ready, signIn, updateProfile, signOut],
   );
 
   return (

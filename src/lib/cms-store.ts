@@ -1,10 +1,13 @@
 /**
- * Portal CMS → MERN API (/api/reviews|gallery|team).
+ * Portal CMS → MERN API (/api/reviews|gallery|team|pricing|contact).
  */
 
+import type { ContactMessage } from "@/data/contact";
 import type { GalleryItem } from "@/data/gallery";
+import type { PricingPlan } from "@/data/pricing";
 import type { Review } from "@/data/reviews";
 import type { TeamMember } from "@/data/team";
+import type { AdminUser } from "@/lib/admin-auth";
 import { apiFetch } from "@/lib/api";
 import { sanitizeProfileImage } from "@/lib/profile-image";
 
@@ -67,6 +70,58 @@ export async function upsertCmsTeamMember(member: TeamMember): Promise<TeamMembe
 export async function deleteCmsTeamMember(id: string): Promise<TeamMember[]> {
   await apiFetch(`/team/${id}`, { method: "DELETE" });
   return getCmsTeam();
+}
+
+export async function getCmsPricing(): Promise<PricingPlan[]> {
+  return apiFetch("/pricing") as Promise<PricingPlan[]>;
+}
+
+export async function upsertCmsPricingPlan(plan: PricingPlan): Promise<PricingPlan[]> {
+  const { id, ...rest } = plan;
+  const isNew = !id || id.startsWith("p_");
+  if (isNew) {
+    await apiFetch("/pricing", { method: "POST", body: JSON.stringify(rest) });
+  } else {
+    await apiFetch(`/pricing/${id}`, { method: "PUT", body: JSON.stringify(rest) });
+  }
+  return getCmsPricing();
+}
+
+export async function deleteCmsPricingPlan(id: string): Promise<PricingPlan[]> {
+  await apiFetch(`/pricing/${id}`, { method: "DELETE" });
+  return getCmsPricing();
+}
+
+export async function getCmsMessages(): Promise<ContactMessage[]> {
+  return apiFetch("/contact") as Promise<ContactMessage[]>;
+}
+
+export async function markCmsMessageRead(id: string): Promise<ContactMessage[]> {
+  await apiFetch(`/contact/${id}/read`, { method: "PATCH" });
+  return getCmsMessages();
+}
+
+export async function deleteCmsMessage(id: string): Promise<ContactMessage[]> {
+  await apiFetch(`/contact/${id}`, { method: "DELETE" });
+  return getCmsMessages();
+}
+
+export async function getCmsUsers(): Promise<AdminUser[]> {
+  return apiFetch("/users") as Promise<AdminUser[]>;
+}
+
+export async function createCmsAdmin(input: {
+  name: string;
+  email: string;
+  password: string;
+}): Promise<AdminUser[]> {
+  await apiFetch("/users", { method: "POST", body: JSON.stringify(input) });
+  return getCmsUsers();
+}
+
+export async function deleteCmsUser(id: string): Promise<AdminUser[]> {
+  await apiFetch(`/users/${id}`, { method: "DELETE" });
+  return getCmsUsers();
 }
 
 /** Client temp id before API assigns Mongo id */
