@@ -139,7 +139,7 @@ function SidebarBody({
             className="mt-3 h-9 w-full rounded-xl bg-[#0061FF] text-xs font-semibold hover:bg-[#0052D6]"
           >
             <a
-              href={import.meta.env.VITE_PUBLIC_SITE_URL || "http://localhost:8080"}
+              href={`${(import.meta.env.VITE_PUBLIC_SITE_URL || "http://localhost:8080").replace(/\/$/, "")}/?from=admin`}
               target="_blank"
               rel="noreferrer"
             >

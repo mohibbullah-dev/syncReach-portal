@@ -1,5 +1,7 @@
 /**
  * Portal auth → MERN /api/auth (JWT).
+ * Also mirrors the token to a cookie so the public site (same parent domain / localhost)
+ * can detect an active Admin / SuperAdmin session.
  */
 
 import { apiFetch, getApiUrl } from "@/lib/api";
@@ -16,10 +18,29 @@ export type AdminUser = {
 };
 
 const SESSION_KEY = "syncreach_admin_session";
-const TOKEN_KEY = "syncreach_api_token";
+export const TOKEN_KEY = "syncreach_api_token";
 
 function canUseStorage() {
   return typeof window !== "undefined" && typeof localStorage !== "undefined";
+}
+
+function cookieDomainAttr() {
+  if (typeof window === "undefined") return "";
+  const host = window.location.hostname;
+  if (host === "localhost" || host === "127.0.0.1") return "";
+  if (host.endsWith("syncreachai.com")) return "; Domain=.syncreachai.com";
+  return "";
+}
+
+function syncAuthCookie(token: string | null) {
+  if (typeof document === "undefined") return;
+  const secure = window.location.protocol === "https:" ? "; Secure" : "";
+  const domain = cookieDomainAttr();
+  if (token) {
+    document.cookie = `${TOKEN_KEY}=${encodeURIComponent(token)}; Path=/; Max-Age=${60 * 60 * 24 * 7}; SameSite=Lax${secure}${domain}`;
+  } else {
+    document.cookie = `${TOKEN_KEY}=; Path=/; Max-Age=0; SameSite=Lax${secure}${domain}`;
+  }
 }
 
 export function getToken(): string | null {
@@ -42,12 +63,14 @@ function setSession(user: AdminUser, token: string) {
   if (!canUseStorage()) return;
   localStorage.setItem(SESSION_KEY, JSON.stringify(user));
   localStorage.setItem(TOKEN_KEY, token);
+  syncAuthCookie(token);
 }
 
 export function clearSession() {
   if (!canUseStorage()) return;
   localStorage.removeItem(SESSION_KEY);
   localStorage.removeItem(TOKEN_KEY);
+  syncAuthCookie(null);
 }
 
 export type AuthResult =
@@ -65,6 +88,7 @@ export async function restoreSession(): Promise<AdminUser | null> {
     const user = data.user as AdminUser;
     if (canUseStorage()) {
       localStorage.setItem(SESSION_KEY, JSON.stringify(user));
+      syncAuthCookie(token);
     }
     return user;
   } catch {
