@@ -44,7 +44,7 @@ function AdminPricingPage() {
             Pricing
           </h1>
           <p className="mt-1 text-sm text-slate-500">
-            Packages on the public Pricing section. Edit price, features, and featured plan.
+            Packages on the public Pricing section. Fixed plans or a Custom quote builder.
           </p>
         </div>
         <Button
@@ -90,6 +90,11 @@ function AdminPricingPage() {
                 >
                   {p.badge}
                 </Badge>
+                {p.planType === "custom" ? (
+                  <Badge className="rounded-full bg-violet-50 text-[10px] text-violet-700 hover:bg-violet-50">
+                    Quote builder
+                  </Badge>
+                ) : null}
                 {p.featured && (
                   <span className="inline-flex items-center gap-1 text-[11px] font-medium text-[#0061FF]">
                     <Star className="h-3 w-3 fill-current" /> Featured
@@ -110,11 +115,15 @@ function AdminPricingPage() {
               <p className="relative mt-1 line-clamp-2 text-sm text-slate-500">{p.desc}</p>
               <div className="relative mt-5 flex items-end gap-1">
                 <span className="text-3xl font-bold tracking-tight text-slate-900">
-                  {p.price}
+                  {p.planType === "custom" ? "Custom" : p.price}
                 </span>
                 <span className="mb-1 text-sm text-slate-500">{p.unit}</span>
               </div>
-              {p.extrasBadge ? (
+              {p.planType === "custom" ? (
+                <p className="relative mt-3 text-xs font-medium text-slate-500">
+                  {p.customConfig?.levers?.length ?? 0} levers · live estimate
+                </p>
+              ) : p.extrasBadge ? (
                 <p className="relative mt-3 inline-flex w-fit rounded-lg bg-[#E8F0FF] px-2.5 py-1 text-xs font-semibold text-[#0061FF]">
                   {p.extrasBadge}
                 </p>
