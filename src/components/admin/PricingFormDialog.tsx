@@ -197,7 +197,7 @@ export function PricingFormDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[92vh] overflow-y-auto rounded-2xl border-slate-200 p-0 sm:max-w-lg">
+      <DialogContent className="max-h-[92vh] overflow-y-auto rounded-[12px] border-slate-200 p-0 sm:max-w-lg">
         <div className="border-b border-slate-100 bg-gradient-to-br from-[#E8F0FF] via-white to-white px-6 py-5">
           <DialogHeader>
             <DialogTitle className="font-display text-xl text-slate-900">
@@ -210,7 +210,7 @@ export function PricingFormDialog({
         </div>
 
         <form onSubmit={submit} className="space-y-4 px-6 py-5">
-          <div className="flex items-center justify-between rounded-2xl border border-slate-200 px-4 py-3">
+          <div className="flex items-center justify-between rounded-[12px] border border-slate-200 px-4 py-3">
             <div>
               <div className="text-sm font-medium text-slate-900">Custom quote builder</div>
               <div className="text-xs text-slate-500">Replace fixed price with interactive levers</div>
@@ -233,7 +233,7 @@ export function PricingFormDialog({
                 value={values.name}
                 onChange={(e) => set("name", e.target.value)}
                 placeholder={isCustom ? "Custom" : "Growth"}
-                className="h-11 rounded-xl"
+                className="h-11 rounded-[12px]"
                 required
               />
             </div>
@@ -244,7 +244,7 @@ export function PricingFormDialog({
                 value={values.badge}
                 onChange={(e) => set("badge", e.target.value)}
                 placeholder={isCustom ? "CUSTOM" : "MOST POPULAR"}
-                className="h-11 rounded-xl"
+                className="h-11 rounded-[12px]"
               />
             </div>
           </div>
@@ -256,7 +256,7 @@ export function PricingFormDialog({
               value={values.desc}
               onChange={(e) => set("desc", e.target.value)}
               placeholder="Build your own outbound stack…"
-              className="min-h-[72px] rounded-xl"
+              className="min-h-[72px] rounded-[12px]"
             />
           </div>
 
@@ -270,7 +270,7 @@ export function PricingFormDialog({
                     value={values.price}
                     onChange={(e) => set("price", e.target.value)}
                     placeholder="$1,000"
-                    className="h-11 rounded-xl"
+                    className="h-11 rounded-[12px]"
                     required
                   />
                 </div>
@@ -281,7 +281,7 @@ export function PricingFormDialog({
                     value={values.unit}
                     onChange={(e) => set("unit", e.target.value)}
                     placeholder="/ month"
-                    className="h-11 rounded-xl"
+                    className="h-11 rounded-[12px]"
                   />
                 </div>
               </div>
@@ -294,7 +294,7 @@ export function PricingFormDialog({
                     value={values.extrasBadge}
                     onChange={(e) => set("extrasBadge", e.target.value)}
                     placeholder="Unlimited warmed inboxes"
-                    className="h-11 rounded-xl"
+                    className="h-11 rounded-[12px]"
                   />
                 </div>
                 <div className="space-y-2">
@@ -304,7 +304,7 @@ export function PricingFormDialog({
                     value={values.cta}
                     onChange={(e) => set("cta", e.target.value)}
                     placeholder="Choose Growth"
-                    className="h-11 rounded-xl"
+                    className="h-11 rounded-[12px]"
                     required
                   />
                 </div>
@@ -317,12 +317,12 @@ export function PricingFormDialog({
                   value={values.extrasNote}
                   onChange={(e) => set("extrasNote", e.target.value)}
                   placeholder="Best value for scaling outbound teams"
-                  className="h-11 rounded-xl"
+                  className="h-11 rounded-[12px]"
                 />
               </div>
             </>
           ) : (
-            <div className="space-y-4 rounded-2xl border border-slate-200 bg-slate-50/60 p-4">
+            <div className="space-y-4 rounded-[12px] border border-slate-200 bg-slate-50/60 p-4">
               <div className="text-sm font-semibold text-slate-900">Quote calculator</div>
               <div className="grid gap-3 sm:grid-cols-2">
                 <div className="space-y-2">
@@ -332,7 +332,7 @@ export function PricingFormDialog({
                     min={0}
                     value={values.customConfig.basePrice}
                     onChange={(e) => setConfig("basePrice", Number(e.target.value) || 0)}
-                    className="h-11 rounded-xl bg-white"
+                    className="h-11 rounded-[12px] bg-white"
                   />
                 </div>
                 <div className="space-y-2">
@@ -342,7 +342,7 @@ export function PricingFormDialog({
                     min={1}
                     value={values.customConfig.roundTo}
                     onChange={(e) => setConfig("roundTo", Number(e.target.value) || 50)}
-                    className="h-11 rounded-xl bg-white"
+                    className="h-11 rounded-[12px] bg-white"
                   />
                 </div>
                 <div className="space-y-2">
@@ -350,7 +350,7 @@ export function PricingFormDialog({
                   <Input
                     value={values.customConfig.currencyPrefix}
                     onChange={(e) => setConfig("currencyPrefix", e.target.value)}
-                    className="h-11 rounded-xl bg-white"
+                    className="h-11 rounded-[12px] bg-white"
                   />
                 </div>
                 <div className="space-y-2">
@@ -358,7 +358,7 @@ export function PricingFormDialog({
                   <Input
                     value={values.customConfig.unitLabel}
                     onChange={(e) => setConfig("unitLabel", e.target.value)}
-                    className="h-11 rounded-xl bg-white"
+                    className="h-11 rounded-[12px] bg-white"
                   />
                 </div>
               </div>
@@ -367,7 +367,7 @@ export function PricingFormDialog({
                 <Input
                   value={values.customConfig.estimateNote}
                   onChange={(e) => setConfig("estimateNote", e.target.value)}
-                  className="h-11 rounded-xl bg-white"
+                  className="h-11 rounded-[12px] bg-white"
                 />
               </div>
               <div className="space-y-2">
@@ -376,7 +376,7 @@ export function PricingFormDialog({
                   value={values.cta}
                   onChange={(e) => set("cta", e.target.value)}
                   placeholder="Get this quote"
-                  className="h-11 rounded-xl bg-white"
+                  className="h-11 rounded-[12px] bg-white"
                   required
                 />
               </div>
@@ -384,17 +384,17 @@ export function PricingFormDialog({
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <Label>Levers</Label>
-                  <Button type="button" variant="outline" size="sm" className="rounded-xl" onClick={addLever}>
+                  <Button type="button" variant="outline" size="sm" className="rounded-[12px]" onClick={addLever}>
                     <Plus className="mr-1 h-3.5 w-3.5" /> Add
                   </Button>
                 </div>
                 {values.customConfig.levers.map((lever, index) => (
-                  <div key={lever.id} className="space-y-2 rounded-xl border border-slate-200 bg-white p-3">
+                  <div key={lever.id} className="space-y-2 rounded-[12px] border border-slate-200 bg-white p-3">
                     <div className="flex items-center justify-between gap-2">
                       <Input
                         value={lever.label}
                         onChange={(e) => updateLever(index, { label: e.target.value })}
-                        className="h-9 rounded-lg"
+                        className="h-9 rounded-[12px]"
                         placeholder="Label"
                       />
                       <Button
@@ -411,7 +411,7 @@ export function PricingFormDialog({
                       <select
                         value={lever.kind}
                         onChange={(e) => updateLever(index, { kind: e.target.value as CustomLeverKind })}
-                        className="h-9 rounded-lg border border-input bg-background px-2 text-sm"
+                        className="h-9 rounded-[12px] border border-input bg-background px-2 text-sm"
                       >
                         <option value="slider">Slider</option>
                         <option value="stepper">Stepper</option>
@@ -421,7 +421,7 @@ export function PricingFormDialog({
                         type="number"
                         value={lever.unitPrice}
                         onChange={(e) => updateLever(index, { unitPrice: Number(e.target.value) || 0 })}
-                        className="h-9 rounded-lg"
+                        className="h-9 rounded-[12px]"
                         placeholder="Unit $"
                         title="Unit price"
                       />
@@ -431,21 +431,21 @@ export function PricingFormDialog({
                             type="number"
                             value={lever.min}
                             onChange={(e) => updateLever(index, { min: Number(e.target.value) || 0 })}
-                            className="h-9 rounded-lg"
+                            className="h-9 rounded-[12px]"
                             placeholder="Min"
                           />
                           <Input
                             type="number"
                             value={lever.max}
                             onChange={(e) => updateLever(index, { max: Number(e.target.value) || 0 })}
-                            className="h-9 rounded-lg"
+                            className="h-9 rounded-[12px]"
                             placeholder="Max"
                           />
                           <Input
                             type="number"
                             value={lever.step}
                             onChange={(e) => updateLever(index, { step: Number(e.target.value) || 1 })}
-                            className="h-9 rounded-lg"
+                            className="h-9 rounded-[12px]"
                             placeholder="Step"
                           />
                           <Input
@@ -457,7 +457,7 @@ export function PricingFormDialog({
                                 [lever.id]: Number(e.target.value) || 0,
                               })
                             }
-                            className="h-9 rounded-lg"
+                            className="h-9 rounded-[12px]"
                             placeholder="Default"
                           />
                         </>
@@ -479,7 +479,7 @@ export function PricingFormDialog({
                     <Input
                       value={lever.id}
                       onChange={(e) => updateLever(index, { id: e.target.value.replace(/\s+/g, "_") })}
-                      className="h-8 rounded-lg font-mono text-xs"
+                      className="h-8 rounded-[12px] font-mono text-xs"
                       placeholder="id"
                     />
                   </div>
@@ -495,7 +495,7 @@ export function PricingFormDialog({
               value={values.featuresText}
               onChange={(e) => set("featuresText", e.target.value)}
               placeholder={"Flexible email volume\nWarmed inboxes on demand"}
-              className="min-h-[120px] rounded-xl font-mono text-sm"
+              className="min-h-[120px] rounded-[12px] font-mono text-sm"
             />
           </div>
 
@@ -508,10 +508,10 @@ export function PricingFormDialog({
                 min={1}
                 value={values.sortOrder}
                 onChange={(e) => set("sortOrder", Number(e.target.value) || 1)}
-                className="h-11 rounded-xl"
+                className="h-11 rounded-[12px]"
               />
             </div>
-            <div className="flex items-center justify-between rounded-2xl border border-slate-200 px-4 py-3">
+            <div className="flex items-center justify-between rounded-[12px] border border-slate-200 px-4 py-3">
               <div>
                 <div className="text-sm font-medium text-slate-900">Featured</div>
                 <div className="text-xs text-slate-500">Blue “most popular” card</div>
@@ -520,7 +520,7 @@ export function PricingFormDialog({
             </div>
           </div>
 
-          <div className="flex items-center justify-between rounded-2xl border border-slate-200 px-4 py-3">
+          <div className="flex items-center justify-between rounded-[12px] border border-slate-200 px-4 py-3">
             <div>
               <div className="text-sm font-medium text-slate-900">Published</div>
               <div className="text-xs text-slate-500">Show on public site</div>
@@ -529,7 +529,7 @@ export function PricingFormDialog({
           </div>
 
           {error && (
-            <div className="rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-600">
+            <div className="rounded-[12px] border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-600">
               {error}
             </div>
           )}
@@ -553,13 +553,13 @@ export function PricingFormDialog({
               <span />
             )}
             <div className="ml-auto flex gap-2">
-              <Button type="button" variant="outline" className="rounded-xl" onClick={() => onOpenChange(false)}>
+              <Button type="button" variant="outline" className="rounded-[12px]" onClick={() => onOpenChange(false)}>
                 Cancel
               </Button>
               <Button
                 type="submit"
                 disabled={busy}
-                className="rounded-xl bg-[#0061FF] hover:bg-[#0052D6]"
+                className="rounded-[12px] bg-[#0061FF] hover:bg-[#0052D6]"
               >
                 {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : editing ? "Save plan" : "Add plan"}
               </Button>

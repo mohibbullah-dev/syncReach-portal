@@ -137,7 +137,7 @@ export function TeamFormDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[92vh] overflow-y-auto rounded-2xl border-slate-200 p-0 sm:max-w-lg">
+      <DialogContent className="max-h-[92vh] overflow-y-auto rounded-[12px] border-slate-200 p-0 sm:max-w-lg">
         <div className="border-b border-slate-100 bg-gradient-to-br from-[#E8F0FF] via-white to-white px-6 py-5">
           <DialogHeader>
             <DialogTitle className="font-display text-xl text-slate-900">
@@ -150,8 +150,8 @@ export function TeamFormDialog({
         </div>
 
         <form onSubmit={submit} className="space-y-5 px-6 py-5">
-          <div className="flex flex-col items-center gap-3 rounded-2xl border border-dashed border-[#0061FF]/35 bg-[#E8F0FF]/25 p-5">
-            <div className="flex h-28 w-28 items-center justify-center overflow-hidden rounded-full border-2 border-[#0061FF]/25 bg-white shadow-sm">
+          <div className="flex flex-col items-center gap-3 rounded-[12px] border border-dashed border-[#0061FF]/35 bg-[#E8F0FF]/25 p-5">
+            <div className="flex h-28 w-28 items-center justify-center overflow-hidden rounded-[12px] border-2 border-[#0061FF]/25 bg-white shadow-sm">
               {values.img ? (
                 <img src={values.img} alt="" className="h-full w-full object-cover" />
               ) : (
@@ -172,7 +172,7 @@ export function TeamFormDialog({
               value={values.img}
               onChange={(e) => set("img", e.target.value)}
               placeholder="Or paste image URL"
-              className="h-10 rounded-xl bg-white"
+              className="h-10 rounded-[12px] bg-white"
             />
           </div>
 
@@ -183,7 +183,7 @@ export function TeamFormDialog({
               value={values.name}
               onChange={(e) => set("name", e.target.value)}
               placeholder="Md Sabid Khan"
-              className="h-11 rounded-xl"
+              className="h-11 rounded-[12px]"
               required
             />
           </div>
@@ -195,7 +195,7 @@ export function TeamFormDialog({
               value={values.role}
               onChange={(e) => set("role", e.target.value)}
               placeholder="Co-Founder & CEO"
-              className="h-11 rounded-xl"
+              className="h-11 rounded-[12px]"
               required
             />
           </div>
@@ -211,7 +211,7 @@ export function TeamFormDialog({
                 value={values.facebookUrl}
                 onChange={(e) => set("facebookUrl", e.target.value)}
                 placeholder="https://facebook.com/…"
-                className="h-11 rounded-xl"
+                className="h-11 rounded-[12px]"
               />
             </div>
             <div className="space-y-2">
@@ -224,7 +224,7 @@ export function TeamFormDialog({
                 value={values.linkedinUrl}
                 onChange={(e) => set("linkedinUrl", e.target.value)}
                 placeholder="https://linkedin.com/in/…"
-                className="h-11 rounded-xl"
+                className="h-11 rounded-[12px]"
               />
             </div>
           </div>
@@ -238,10 +238,10 @@ export function TeamFormDialog({
                 min={1}
                 value={values.sortOrder}
                 onChange={(e) => set("sortOrder", Number(e.target.value) || 1)}
-                className="h-11 rounded-xl"
+                className="h-11 rounded-[12px]"
               />
             </div>
-            <div className="flex items-center justify-between rounded-2xl border border-slate-200 px-4 py-3">
+            <div className="flex items-center justify-between rounded-[12px] border border-slate-200 px-4 py-3">
               <div>
                 <div className="text-sm font-medium text-slate-900">Published</div>
                 <div className="text-xs text-slate-500">Show on public site</div>
@@ -251,7 +251,7 @@ export function TeamFormDialog({
           </div>
 
           {error && (
-            <div className="rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-600">
+            <div className="rounded-[12px] border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-600">
               {error}
             </div>
           )}
@@ -275,13 +275,13 @@ export function TeamFormDialog({
               <span />
             )}
             <div className="ml-auto flex gap-2">
-              <Button type="button" variant="outline" className="rounded-xl" onClick={() => onOpenChange(false)}>
+              <Button type="button" variant="outline" className="rounded-[12px]" onClick={() => onOpenChange(false)}>
                 Cancel
               </Button>
               <Button
                 type="submit"
                 disabled={busy}
-                className="rounded-xl bg-[#0061FF] hover:bg-[#0052D6]"
+                className="rounded-[12px] bg-[#0061FF] hover:bg-[#0052D6]"
               >
                 {busy ? (
                   <Loader2 className="h-4 w-4 animate-spin" />

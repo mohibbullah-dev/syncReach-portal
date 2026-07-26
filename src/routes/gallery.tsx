@@ -80,20 +80,20 @@ function AdminGalleryPage() {
         </div>
         <Button
           onClick={openCreate}
-          className="rounded-xl bg-[#0061FF] hover:bg-[#0052D6]"
+          className="rounded-[12px] bg-[#0061FF] hover:bg-[#0052D6]"
         >
           <Plus className="mr-1.5 h-4 w-4" /> Upload media
         </Button>
       </div>
 
-      <div className="flex flex-col gap-3 rounded-2xl border border-slate-200/80 bg-white p-4 shadow-[0_8px_30px_-18px_rgba(15,23,42,0.18)] sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-3 rounded-[12px] border border-slate-200/80 bg-white p-4 shadow-[0_8px_30px_-18px_rgba(15,23,42,0.18)] sm:flex-row sm:items-center sm:justify-between">
         <div className="relative w-full max-w-sm">
           <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
           <Input
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Search gallery…"
-            className="h-10 rounded-xl border-slate-200 bg-slate-50 pl-9"
+            className="h-10 rounded-[12px] border-slate-200 bg-slate-50 pl-9"
           />
         </div>
         <div className="flex flex-wrap gap-2">
@@ -103,7 +103,7 @@ function AdminGalleryPage() {
               type="button"
               onClick={() => setFilter(f.id)}
               className={cn(
-                "rounded-full px-3.5 py-1.5 text-sm font-medium transition",
+                "rounded-[12px] px-3.5 py-1.5 text-sm font-medium transition",
                 filter === f.id
                   ? "bg-[#0061FF] text-white"
                   : "bg-slate-100 text-slate-600 hover:bg-slate-200",
@@ -116,7 +116,7 @@ function AdminGalleryPage() {
       </div>
 
       {list.length === 0 ? (
-        <div className="rounded-2xl border border-dashed border-slate-200 bg-white px-6 py-16 text-center">
+        <div className="rounded-[12px] border border-dashed border-slate-200 bg-white px-6 py-16 text-center">
           <p className="text-sm text-slate-500">
             No gallery items yet. Click <strong>Upload media</strong> to add one.
           </p>
@@ -126,7 +126,7 @@ function AdminGalleryPage() {
           {list.map((item) => (
             <article
               key={item.id}
-              className="overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-[0_8px_30px_-18px_rgba(15,23,42,0.18)]"
+              className="overflow-hidden rounded-[12px] border border-slate-200/80 bg-white shadow-[0_8px_30px_-18px_rgba(15,23,42,0.18)]"
             >
               <div className="relative aspect-[16/10] bg-slate-100">
                 <img
@@ -134,7 +134,7 @@ function AdminGalleryPage() {
                   alt={item.title}
                   className="h-full w-full object-cover"
                 />
-                <span className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-slate-700 shadow-sm">
+                <span className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-[12px] bg-white/95 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-slate-700 shadow-sm">
                   {item.type === "video" ? (
                     <Video className="h-3 w-3" />
                   ) : (
@@ -148,7 +148,7 @@ function AdminGalleryPage() {
                   <h3 className="font-semibold text-slate-900">{item.title}</h3>
                   <Badge
                     className={cn(
-                      "shrink-0 rounded-md",
+                      "shrink-0 rounded-[12px]",
                       item.published
                         ? "bg-emerald-50 text-emerald-700 hover:bg-emerald-50"
                         : "bg-slate-100 text-slate-600 hover:bg-slate-100",

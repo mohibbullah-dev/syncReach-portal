@@ -4,7 +4,7 @@
  */
 import { sanitizeProfileImage } from "@/lib/profile-image";
 
-export type ReviewType = "text" | "audio" | "video";
+export type ReviewType = "text" | "image" | "video";
 
 export type Review = {
   id: string;
@@ -15,7 +15,7 @@ export type Review = {
   avatar: string;
   /** Quote / caption shown on the card */
   body: string;
-  /** Audio or video source URL from CMS media library */
+  /** Image or video source URL from CMS media library */
   mediaUrl?: string;
   /** Optional video poster / cover image */
   thumbnailUrl?: string;
@@ -43,7 +43,7 @@ export const reviews: Review[] = [
     username: "@jordan",
     role: "Founder · B2B startup",
     avatar: "",
-    body: "The personalization is spot-on. Prospects reply asking who wrote it — our team did.",
+    body: "The personalization is spot-on. Prospects reply asking who wrote it? Our team did.",
     mediaUrl: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
     thumbnailUrl: "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=640&q=80",
     rating: 5,
@@ -51,13 +51,13 @@ export const reviews: Review[] = [
   },
   {
     id: "r3",
-    type: "audio",
+    type: "image",
     name: "Priya Sen",
     username: "@priya",
     role: "SDR Manager · Fintech",
     avatar: "",
     body: "Deliverability is the best I've ever seen. Finally, cold email that lands.",
-    mediaUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+    mediaUrl: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=900&q=80",
     rating: 5,
     featured: true,
   },
@@ -87,13 +87,13 @@ export const reviews: Review[] = [
   },
   {
     id: "r6",
-    type: "audio",
+    type: "image",
     name: "Diego Alvarez",
     username: "@diego",
     role: "Outbound Lead · Services",
     avatar: "",
-    body: "Warm-up + sequences in one place. We killed four other tools.",
-    mediaUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
+    body: "Warm up + sequences in one place. We killed four other tools.",
+    mediaUrl: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=900&q=80",
     rating: 5,
     featured: true,
   },
@@ -115,7 +115,7 @@ export const reviews: Review[] = [
     username: "@noah",
     role: "Growth · Fintech",
     avatar: "",
-    body: "Sync today, reach tomorrow — that tagline became our weekly rhythm.",
+    body: "Sync today, reach tomorrow. That tagline became our weekly rhythm.",
     mediaUrl: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
     thumbnailUrl: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=640&q=80",
     rating: 5,

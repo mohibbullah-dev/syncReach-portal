@@ -127,12 +127,12 @@ function AdminMessagesPage() {
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <div className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-sm shadow-sm">
+          <div className="inline-flex items-center gap-2 rounded-[12px] border border-slate-200 bg-white px-3.5 py-2 text-sm shadow-sm">
             <Inbox className="h-4 w-4 text-[#0061FF]" />
             <span className="font-semibold text-slate-900">{items.length}</span>
             <span className="text-slate-500">total</span>
           </div>
-          <div className="inline-flex items-center gap-2 rounded-xl border border-[#0061FF]/20 bg-[#F4F8FF] px-3.5 py-2 text-sm">
+          <div className="inline-flex items-center gap-2 rounded-[12px] border border-[#0061FF]/20 bg-[#F4F8FF] px-3.5 py-2 text-sm">
             <Mail className="h-4 w-4 text-[#0061FF]" />
             <span className="font-semibold text-[#0061FF]">{unread}</span>
             <span className="text-[#0061FF]/80">new</span>
@@ -140,13 +140,13 @@ function AdminMessagesPage() {
         </div>
       </div>
 
-      <div className="overflow-hidden rounded-[1.35rem] border border-slate-200/70 bg-white shadow-[0_12px_40px_-24px_rgba(15,23,42,0.28)] lg:grid lg:grid-cols-5 lg:min-h-[560px]">
+      <div className="overflow-hidden rounded-[12px] border border-slate-200/70 bg-white shadow-[0_12px_40px_-24px_rgba(15,23,42,0.28)] lg:grid lg:grid-cols-5 lg:min-h-[560px]">
         {/* Inbox list */}
         <div className="border-b border-slate-100 lg:col-span-2 lg:border-b-0 lg:border-r">
           <div className="flex items-center justify-between border-b border-slate-100 bg-gradient-to-r from-[#F4F8FF] to-white px-4 py-3.5">
             <div className="text-sm font-semibold text-slate-900">Inbox</div>
             {unread > 0 ? (
-              <Badge className="rounded-full bg-[#0061FF] px-2.5 text-[10px] text-white hover:bg-[#0061FF]">
+              <Badge className="rounded-[12px] bg-[#0061FF] px-2.5 text-[10px] text-white hover:bg-[#0061FF]">
                 {unread} new
               </Badge>
             ) : null}
@@ -156,7 +156,7 @@ function AdminMessagesPage() {
             <div className="space-y-3 p-4">
               {[1, 2, 3].map((i) => (
                 <div key={i} className="flex gap-3 animate-pulse">
-                  <div className="h-11 w-11 rounded-full bg-slate-100" />
+                  <div className="h-11 w-11 rounded-[12px] bg-slate-100" />
                   <div className="flex-1 space-y-2 py-1">
                     <div className="h-3 w-1/2 rounded bg-slate-100" />
                     <div className="h-3 w-3/4 rounded bg-slate-100" />
@@ -166,7 +166,7 @@ function AdminMessagesPage() {
             </div>
           ) : items.length === 0 ? (
             <div className="flex flex-col items-center justify-center px-6 py-16 text-center">
-              <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#E8F0FF] text-[#0061FF]">
+              <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-[12px] bg-[#E8F0FF] text-[#0061FF]">
                 <MailOpen className="h-6 w-6" />
               </div>
               <p className="text-sm font-medium text-slate-900">No messages yet</p>
@@ -193,13 +193,13 @@ function AdminMessagesPage() {
                     >
                       <div
                         className={cn(
-                          "relative flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-xs font-bold",
+                          "relative flex h-11 w-11 shrink-0 items-center justify-center rounded-[12px] text-xs font-bold",
                           toneFor(m.id),
                         )}
                       >
                         {initials(m.name)}
                         {!m.read ? (
-                          <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full border-2 border-white bg-[#0061FF]" />
+                          <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-[12px] border-2 border-white bg-[#0061FF]" />
                         ) : null}
                       </div>
                       <div className="min-w-0 flex-1">
@@ -255,7 +255,7 @@ function AdminMessagesPage() {
                   <div className="flex gap-3.5">
                     <div
                       className={cn(
-                        "flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl text-sm font-bold",
+                        "flex h-12 w-12 shrink-0 items-center justify-center rounded-[12px] text-sm font-bold",
                         toneFor(selected.id),
                       )}
                     >
@@ -273,7 +273,7 @@ function AdminMessagesPage() {
                       </a>
                       <div className="mt-2 flex flex-wrap items-center gap-2 text-xs text-slate-500">
                         {selected.company ? (
-                          <span className="inline-flex items-center gap-1 rounded-lg bg-slate-100 px-2 py-1 font-medium text-slate-600">
+                          <span className="inline-flex items-center gap-1 rounded-[12px] bg-slate-100 px-2 py-1 font-medium text-slate-600">
                             <Building2 className="h-3 w-3" />
                             {selected.company}
                           </span>
@@ -284,7 +284,7 @@ function AdminMessagesPage() {
                   </div>
                   <Button
                     variant="outline"
-                    className="rounded-xl border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700"
+                    className="rounded-[12px] border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700"
                     onClick={() => void remove(selected.id)}
                   >
                     <Trash2 className="mr-1.5 h-4 w-4" />
@@ -297,7 +297,7 @@ function AdminMessagesPage() {
                 <div className="mb-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400">
                   Message
                 </div>
-                <div className="rounded-2xl border border-slate-200/80 bg-white px-5 py-5 text-[15px] leading-relaxed whitespace-pre-wrap text-slate-700 shadow-sm">
+                <div className="rounded-[12px] border border-slate-200/80 bg-white px-5 py-5 text-[15px] leading-relaxed whitespace-pre-wrap text-slate-700 shadow-sm">
                   {selected.message}
                 </div>
               </div>
@@ -305,7 +305,7 @@ function AdminMessagesPage() {
               <div className="border-t border-slate-100 bg-white/80 px-5 py-4 sm:px-7">
                 <Button
                   asChild
-                  className="h-11 rounded-xl bg-[#0061FF] px-5 hover:bg-[#0052D6]"
+                  className="h-11 rounded-[12px] bg-[#0061FF] px-5 hover:bg-[#0052D6]"
                 >
                   <a href={`mailto:${selected.email}?subject=${encodeURIComponent("Re: SyncReach inquiry")}`}>
                     <Reply className="mr-2 h-4 w-4" />

@@ -113,13 +113,13 @@ function AdminUsersPage() {
             setError("");
             setOpen(true);
           }}
-          className="rounded-xl bg-[#0061FF] hover:bg-[#0052D6]"
+          className="rounded-[12px] bg-[#0061FF] hover:bg-[#0052D6]"
         >
           <UserPlus className="mr-1.5 h-4 w-4" /> Add admin
         </Button>
       </div>
 
-      <div className="overflow-hidden rounded-[1.35rem] border border-slate-200/70 bg-white shadow-[0_12px_40px_-24px_rgba(15,23,42,0.28)]">
+      <div className="overflow-hidden rounded-[12px] border border-slate-200/70 bg-white shadow-[0_12px_40px_-24px_rgba(15,23,42,0.28)]">
         {loading ? (
           <div className="flex justify-center py-16">
             <Loader2 className="h-6 w-6 animate-spin text-[#0061FF]" />
@@ -143,13 +143,13 @@ function AdminUsersPage() {
                     <div className="flex flex-wrap items-center gap-2">
                       <span className="font-semibold text-slate-900">{u.name}</span>
                       {isSelf ? (
-                        <Badge className="rounded-full bg-slate-100 text-[10px] text-slate-600 hover:bg-slate-100">
+                        <Badge className="rounded-[12px] bg-slate-100 text-[10px] text-slate-600 hover:bg-slate-100">
                           You
                         </Badge>
                       ) : null}
                       <Badge
                         className={cn(
-                          "rounded-full text-[10px]",
+                          "rounded-[12px] text-[10px]",
                           u.role === "SuperAdmin"
                             ? "bg-[#E8F0FF] text-[#0061FF] hover:bg-[#E8F0FF]"
                             : "bg-emerald-50 text-emerald-700 hover:bg-emerald-50",
@@ -169,7 +169,7 @@ function AdminUsersPage() {
                   {canDelete ? (
                     <Button
                       variant="outline"
-                      className="rounded-xl border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700"
+                      className="rounded-[12px] border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700"
                       onClick={() => void remove(u.id)}
                     >
                       <Trash2 className="mr-1.5 h-4 w-4" />
@@ -184,7 +184,7 @@ function AdminUsersPage() {
       </div>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="rounded-2xl sm:max-w-md">
+        <DialogContent className="rounded-[12px] sm:max-w-md">
           <DialogHeader>
             <DialogTitle className="font-display text-xl">Add admin</DialogTitle>
             <DialogDescription>
@@ -199,7 +199,7 @@ function AdminUsersPage() {
                 required
                 value={form.name}
                 onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
-                className="h-11 rounded-xl"
+                className="h-11 rounded-[12px]"
                 placeholder="Jane Doe"
               />
             </div>
@@ -211,7 +211,7 @@ function AdminUsersPage() {
                 required
                 value={form.email}
                 onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
-                className="h-11 rounded-xl"
+                className="h-11 rounded-[12px]"
                 placeholder="jane@company.com"
               />
             </div>
@@ -224,23 +224,23 @@ function AdminUsersPage() {
                 minLength={6}
                 value={form.password}
                 onChange={(e) => setForm((f) => ({ ...f, password: e.target.value }))}
-                className="h-11 rounded-xl"
+                className="h-11 rounded-[12px]"
                 placeholder="At least 6 characters"
               />
             </div>
             {error ? (
-              <div className="rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-600">
+              <div className="rounded-[12px] border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-600">
                 {error}
               </div>
             ) : null}
             <div className="flex justify-end gap-2 pt-2">
-              <Button type="button" variant="outline" className="rounded-xl" onClick={() => setOpen(false)}>
+              <Button type="button" variant="outline" className="rounded-[12px]" onClick={() => setOpen(false)}>
                 Cancel
               </Button>
               <Button
                 type="submit"
                 disabled={busy}
-                className="rounded-xl bg-[#0061FF] hover:bg-[#0052D6]"
+                className="rounded-[12px] bg-[#0061FF] hover:bg-[#0052D6]"
               >
                 {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : (
                   <>

@@ -14,7 +14,7 @@ import { roleLabel } from "@/lib/admin-auth";
 export const Route = createFileRoute("/profile")({
   component: AdminProfilePage,
   head: () => ({
-    meta: [{ title: "Profile — SyncReach Admin" }],
+    meta: [{ title: "Profile: SyncReach Admin" }],
   }),
 });
 
@@ -48,7 +48,7 @@ function AdminProfilePage() {
     try {
       const { url } = await uploadToCloudinary(file, "profiles");
       setAvatarUrl(url);
-      toast.success("Photo ready — save to apply.");
+      toast.success("Photo ready. Save to apply.");
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Could not upload image.");
     } finally {
@@ -102,7 +102,7 @@ function AdminProfilePage() {
 
       <form
         onSubmit={onSubmit}
-        className="space-y-6 rounded-2xl border border-slate-200/80 bg-white p-6 shadow-[0_8px_30px_-18px_rgba(15,23,42,0.18)]"
+        className="space-y-6 rounded-[12px] border border-slate-200/80 bg-white p-6 shadow-[0_8px_30px_-18px_rgba(15,23,42,0.18)]"
       >
         <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-start">
           <AdminUserAvatar
@@ -129,7 +129,7 @@ function AdminProfilePage() {
               <Button
                 type="button"
                 variant="outline"
-                className="rounded-xl"
+                className="rounded-[12px]"
                 disabled={uploading}
                 onClick={() => fileRef.current?.click()}
               >
@@ -144,7 +144,7 @@ function AdminProfilePage() {
                 <Button
                   type="button"
                   variant="ghost"
-                  className="rounded-xl text-red-600 hover:bg-red-50 hover:text-red-700"
+                  className="rounded-[12px] text-red-600 hover:bg-red-50 hover:text-red-700"
                   onClick={() => setAvatarUrl(undefined)}
                 >
                   <Trash2 className="mr-1.5 h-4 w-4" />
@@ -163,7 +163,7 @@ function AdminProfilePage() {
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="h-11 rounded-xl"
+              className="h-11 rounded-[12px]"
             />
           </div>
           <div className="space-y-2 sm:col-span-2">
@@ -174,7 +174,7 @@ function AdminProfilePage() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="h-11 rounded-xl"
+              className="h-11 rounded-[12px]"
             />
           </div>
           <div className="space-y-2">
@@ -187,7 +187,7 @@ function AdminProfilePage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Leave blank to keep"
-              className="h-11 rounded-xl"
+              className="h-11 rounded-[12px]"
             />
           </div>
           <div className="space-y-2">
@@ -200,13 +200,13 @@ function AdminProfilePage() {
               value={confirm}
               onChange={(e) => setConfirm(e.target.value)}
               placeholder="Repeat if changing"
-              className="h-11 rounded-xl"
+              className="h-11 rounded-[12px]"
             />
           </div>
         </div>
 
         {error ? (
-          <div className="rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-600">
+          <div className="rounded-[12px] border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-600">
             {error}
           </div>
         ) : null}
@@ -214,7 +214,7 @@ function AdminProfilePage() {
         <Button
           type="submit"
           disabled={saving}
-          className="h-11 rounded-xl bg-[#0061FF] hover:bg-[#0052D6]"
+          className="h-11 rounded-[12px] bg-[#0061FF] hover:bg-[#0052D6]"
         >
           {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : "Save profile"}
         </Button>

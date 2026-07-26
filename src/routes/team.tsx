@@ -57,14 +57,14 @@ function AdminTeamPage() {
         </div>
         <Button
           onClick={openCreate}
-          className="rounded-xl bg-[#0061FF] hover:bg-[#0052D6]"
+          className="rounded-[12px] bg-[#0061FF] hover:bg-[#0052D6]"
         >
           <Plus className="mr-1.5 h-4 w-4" /> Add member
         </Button>
       </div>
 
       {list.length === 0 ? (
-        <div className="rounded-2xl border border-dashed border-slate-200 bg-white px-6 py-16 text-center">
+        <div className="rounded-[12px] border border-dashed border-slate-200 bg-white px-6 py-16 text-center">
           <p className="text-sm text-slate-500">
             No team members yet. Click <strong>Add member</strong> to create one.
           </p>
@@ -74,17 +74,17 @@ function AdminTeamPage() {
           {list.map((m) => (
             <article
               key={m.id}
-              className="rounded-2xl border border-slate-200/80 bg-white p-6 text-center shadow-[0_8px_30px_-18px_rgba(15,23,42,0.18)]"
+              className="rounded-[12px] border border-slate-200/80 bg-white p-6 text-center shadow-[0_8px_30px_-18px_rgba(15,23,42,0.18)]"
             >
               <div className="relative mx-auto w-fit">
                 <img
                   src={m.img}
                   alt={m.name}
-                  className="mx-auto h-28 w-28 rounded-full border-2 border-[#0061FF]/25 object-cover"
+                  className="mx-auto h-28 w-28 rounded-[12px] border-2 border-[#0061FF]/25 object-cover"
                 />
                 <Badge
                   className={cn(
-                    "absolute -bottom-1 left-1/2 -translate-x-1/2 rounded-md text-[10px]",
+                    "absolute -bottom-1 left-1/2 -translate-x-1/2 rounded-[12px] text-[10px]",
                     m.published
                       ? "bg-emerald-50 text-emerald-700 hover:bg-emerald-50"
                       : "bg-slate-100 text-slate-600 hover:bg-slate-100",
@@ -100,7 +100,7 @@ function AdminTeamPage() {
                   href={m.facebookUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-500 transition hover:border-[#0061FF]/40 hover:text-[#0061FF]"
+                  className="flex h-9 w-9 items-center justify-center rounded-[12px] border border-slate-200 text-slate-500 transition hover:border-[#0061FF]/40 hover:text-[#0061FF]"
                 >
                   <Facebook className="h-4 w-4" />
                 </a>
@@ -108,14 +108,14 @@ function AdminTeamPage() {
                   href={m.linkedinUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-500 transition hover:border-[#0061FF]/40 hover:text-[#0061FF]"
+                  className="flex h-9 w-9 items-center justify-center rounded-[12px] border border-slate-200 text-slate-500 transition hover:border-[#0061FF]/40 hover:text-[#0061FF]"
                 >
                   <Linkedin className="h-4 w-4" />
                 </a>
               </div>
               <Button
                 variant="outline"
-                className="mt-5 w-full rounded-xl"
+                className="mt-5 w-full rounded-[12px]"
                 onClick={() => openEdit(m)}
               >
                 Edit profile

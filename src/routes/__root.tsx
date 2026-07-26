@@ -30,7 +30,7 @@ function NotFoundComponent() {
         <div className="mt-6">
           <Link
             to="/"
-            className="inline-flex items-center justify-center rounded-md bg-[#0061FF] px-4 py-2 text-sm font-medium text-white"
+            className="inline-flex items-center justify-center rounded-[12px] bg-[#0061FF] px-4 py-2 text-sm font-medium text-white"
           >
             Go to dashboard
           </Link>
@@ -63,13 +63,13 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
               router.invalidate();
               reset();
             }}
-            className="inline-flex items-center justify-center rounded-md bg-[#0061FF] px-4 py-2 text-sm font-medium text-white"
+            className="inline-flex items-center justify-center rounded-[12px] bg-[#0061FF] px-4 py-2 text-sm font-medium text-white"
           >
             Try again
           </button>
           <a
             href="/"
-            className="inline-flex items-center justify-center rounded-md border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700"
+            className="inline-flex items-center justify-center rounded-[12px] border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700"
           >
             Dashboard
           </a>
@@ -84,10 +84,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "SyncReach Admin — CMS" },
+      { title: "SyncReach Admin: CMS" },
       {
         name: "description",
-        content: "SyncReach CMS — manage reviews, gallery, team, and media.",
+        content: "SyncReach CMS: manage reviews, gallery, team, and media.",
       },
       { name: "robots", content: "noindex, nofollow" },
     ],

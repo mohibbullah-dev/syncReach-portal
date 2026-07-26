@@ -93,7 +93,7 @@ function AdminDashboard() {
     () => [
       { name: "Text reviews", value: reviews.filter((r) => r.type === "text").length, color: "#0061FF" },
       { name: "Video reviews", value: reviews.filter((r) => r.type === "video").length, color: "#16A34A" },
-      { name: "Audio reviews", value: reviews.filter((r) => r.type === "audio").length, color: "#EA580C" },
+      { name: "Image reviews", value: reviews.filter((r) => r.type === "image").length, color: "#EA580C" },
       { name: "Gallery photos", value: galleryItems.filter((g) => g.type === "photo").length, color: "#7C3AED" },
     ],
     [reviews, galleryItems],
@@ -110,7 +110,7 @@ function AdminDashboard() {
             A quick look at your website content.
           </p>
         </div>
-        <div className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-600 shadow-sm">
+        <div className="inline-flex items-center gap-2 rounded-[12px] border border-slate-200 bg-white px-3 py-2 text-sm text-slate-600 shadow-sm">
           <CalendarDays className="h-4 w-4 text-[#0061FF]" />
           This week
         </div>
@@ -164,13 +164,13 @@ function AdminDashboard() {
       </div>
 
       <div className="grid gap-4 xl:grid-cols-12">
-        <div className="rounded-[1.35rem] border border-slate-200/70 bg-white p-5 shadow-[0_12px_40px_-24px_rgba(15,23,42,0.28)] xl:col-span-8">
+        <div className="rounded-[12px] border border-slate-200/70 bg-white p-5 shadow-[0_12px_40px_-24px_rgba(15,23,42,0.28)] xl:col-span-8">
           <div className="flex items-center justify-between gap-3">
             <div>
               <h2 className="font-semibold text-slate-900">Publishing overview</h2>
               <p className="text-sm text-slate-500">Reviews & gallery activity this week</p>
             </div>
-            <Badge variant="secondary" className="rounded-lg bg-slate-100 text-slate-600">
+            <Badge variant="secondary" className="rounded-[12px] bg-slate-100 text-slate-600">
               Last 7 days
             </Badge>
           </div>
@@ -204,7 +204,7 @@ function AdminDashboard() {
           </div>
         </div>
 
-        <div className="rounded-[1.35rem] border border-slate-200/70 bg-white p-5 shadow-[0_12px_40px_-24px_rgba(15,23,42,0.28)] xl:col-span-4">
+        <div className="rounded-[12px] border border-slate-200/70 bg-white p-5 shadow-[0_12px_40px_-24px_rgba(15,23,42,0.28)] xl:col-span-4">
           <div className="flex items-center justify-between">
             <h2 className="font-semibold text-slate-900">Recent content</h2>
             <Link to="/reviews" className="text-sm font-medium text-[#0061FF] hover:underline">
@@ -215,7 +215,7 @@ function AdminDashboard() {
             {reviews.slice(0, 5).map((r) => (
               <li
                 key={r.id}
-                className="flex items-center gap-3 rounded-2xl border border-slate-100 bg-slate-50/50 px-3 py-2.5 transition hover:border-[#0061FF]/25 hover:bg-[#F4F8FF]"
+                className="flex items-center gap-3 rounded-[12px] border border-slate-100 bg-slate-50/50 px-3 py-2.5 transition hover:border-[#0061FF]/25 hover:bg-[#F4F8FF]"
               >
                 <ProfileAvatar name={r.name} src={r.avatar} className="h-9 w-9" />
                 <div className="min-w-0 flex-1">
@@ -223,7 +223,7 @@ function AdminDashboard() {
                   <div className="text-xs capitalize text-slate-500">{r.type} review</div>
                 </div>
                 {r.featured && (
-                  <Badge className="rounded-md bg-[#E8F0FF] text-[10px] text-[#0061FF] hover:bg-[#E8F0FF]">
+                  <Badge className="rounded-[12px] bg-[#E8F0FF] text-[10px] text-[#0061FF] hover:bg-[#E8F0FF]">
                     Featured
                   </Badge>
                 )}
@@ -234,7 +234,7 @@ function AdminDashboard() {
       </div>
 
       <div className="grid gap-4 lg:grid-cols-12">
-        <div className="rounded-[1.35rem] border border-slate-200/70 bg-white p-5 shadow-[0_12px_40px_-24px_rgba(15,23,42,0.28)] lg:col-span-7">
+        <div className="rounded-[12px] border border-slate-200/70 bg-white p-5 shadow-[0_12px_40px_-24px_rgba(15,23,42,0.28)] lg:col-span-7">
           <div className="flex items-center justify-between">
             <h2 className="font-semibold text-slate-900">Recent activity</h2>
             <Sparkles className="h-4 w-4 text-[#0061FF]" />
@@ -242,7 +242,7 @@ function AdminDashboard() {
           <ul className="mt-4 divide-y divide-slate-100">
             {activity.map((item) => (
               <li key={item.id} className="flex items-start gap-3 py-3 first:pt-0 last:pb-0">
-                <span className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-xs font-bold ${item.tone}`}>
+                <span className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-[12px] text-xs font-bold ${item.tone}`}>
                   ·
                 </span>
                 <div className="min-w-0 flex-1">
@@ -254,7 +254,7 @@ function AdminDashboard() {
           </ul>
         </div>
 
-        <div className="rounded-[1.35rem] border border-slate-200/70 bg-white p-5 shadow-[0_12px_40px_-24px_rgba(15,23,42,0.28)] lg:col-span-5">
+        <div className="rounded-[12px] border border-slate-200/70 bg-white p-5 shadow-[0_12px_40px_-24px_rgba(15,23,42,0.28)] lg:col-span-5">
           <h2 className="font-semibold text-slate-900">Content mix</h2>
           <p className="text-sm text-slate-500">What your site is made of</p>
           <div className="mt-2 flex items-center gap-4">
@@ -278,7 +278,7 @@ function AdminDashboard() {
             <ul className="space-y-2.5">
               {contentMix.map((item) => (
                 <li key={item.name} className="flex items-center gap-2 text-sm text-slate-600">
-                  <span className="h-2.5 w-2.5 rounded-full" style={{ background: item.color }} />
+                  <span className="h-2.5 w-2.5 rounded-[12px]" style={{ background: item.color }} />
                   <span className="flex-1">{item.name}</span>
                   <span className="font-semibold text-slate-900">{item.value}</span>
                 </li>
@@ -286,12 +286,12 @@ function AdminDashboard() {
             </ul>
           </div>
           <div className="mt-4 flex flex-wrap gap-2">
-            <Button asChild className="rounded-xl bg-[#0061FF] hover:bg-[#0052D6]">
+            <Button asChild className="rounded-[12px] bg-[#0061FF] hover:bg-[#0052D6]">
               <Link to="/reviews">
                 <Plus className="mr-1.5 h-4 w-4" /> Add review
               </Link>
             </Button>
-            <Button asChild variant="outline" className="rounded-xl">
+            <Button asChild variant="outline" className="rounded-[12px]">
               <Link to="/gallery">Manage gallery</Link>
             </Button>
           </div>

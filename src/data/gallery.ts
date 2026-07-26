@@ -58,7 +58,7 @@ export const galleryItems: GalleryItem[] = [
     id: "g4",
     type: "video",
     title: "Client win call",
-    caption: "First 30 days — meetings on the board.",
+    caption: "First 30 days, meetings on the board.",
     src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
     thumbnailUrl:
       "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=900&q=80",

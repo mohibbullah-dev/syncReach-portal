@@ -56,16 +56,14 @@ function AdminMediaPage() {
         src: g.thumbnailUrl ?? g.src,
       })),
       ...reviewsList
-        .filter((r) => Boolean(r.thumbnailUrl || (r.mediaUrl && r.type === "video")))
+        .filter((r) => Boolean(r.mediaUrl || r.thumbnailUrl))
         .map((r) => ({
           id: `r-${r.id}`,
           name: `${r.name} · ${r.type}`,
           kind:
-            r.type === "audio"
-              ? ("audio" as const)
-              : r.type === "video"
-                ? ("video" as const)
-                : ("image" as const),
+            r.type === "video"
+              ? ("video" as const)
+              : ("image" as const),
           usedIn: "Reviews",
           src: (r.thumbnailUrl || r.mediaUrl) as string,
         })),
@@ -87,7 +85,7 @@ function AdminMediaPage() {
         </div>
         <Button
           onClick={() => setOpen(true)}
-          className="rounded-xl bg-[#0061FF] hover:bg-[#0052D6]"
+          className="rounded-[12px] bg-[#0061FF] hover:bg-[#0052D6]"
         >
           <Upload className="mr-1.5 h-4 w-4" /> Upload files
         </Button>
@@ -96,14 +94,14 @@ function AdminMediaPage() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="w-full rounded-2xl border border-dashed border-[#0061FF]/40 bg-[#E8F0FF]/40 p-8 text-center transition hover:border-[#0061FF]/70 hover:bg-[#E8F0FF]/70"
+        className="w-full rounded-[12px] border border-dashed border-[#0061FF]/40 bg-[#E8F0FF]/40 p-8 text-center transition hover:border-[#0061FF]/70 hover:bg-[#E8F0FF]/70"
       >
         <FolderOpen className="mx-auto h-10 w-10 text-[#0061FF]" />
         <h2 className="mt-3 font-semibold text-slate-900">Drop files here</h2>
         <p className="mt-1 text-sm text-slate-500">
-          Opens the gallery upload form — images, video, or paste a URL.
+          Opens the gallery upload form: images, video, or paste a URL.
         </p>
-        <span className="mt-4 inline-flex rounded-xl bg-[#0061FF] px-4 py-2 text-sm font-semibold text-white">
+        <span className="mt-4 inline-flex rounded-[12px] bg-[#0061FF] px-4 py-2 text-sm font-semibold text-white">
           Browse files
         </span>
       </button>
@@ -115,11 +113,11 @@ function AdminMediaPage() {
           return (
             <div
               key={asset.id}
-              className="overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-[0_8px_30px_-18px_rgba(15,23,42,0.18)]"
+              className="overflow-hidden rounded-[12px] border border-slate-200/80 bg-white shadow-[0_8px_30px_-18px_rgba(15,23,42,0.18)]"
             >
               <div className="relative aspect-square bg-slate-100">
                 <img src={asset.src} alt="" className="h-full w-full object-cover" />
-                <span className="absolute bottom-2 left-2 inline-flex items-center gap-1 rounded-md bg-white/95 px-2 py-1 text-[10px] font-semibold uppercase text-slate-700">
+                <span className="absolute bottom-2 left-2 inline-flex items-center gap-1 rounded-[12px] bg-white/95 px-2 py-1 text-[10px] font-semibold uppercase text-slate-700">
                   <Icon className="h-3 w-3" />
                   {asset.kind}
                 </span>

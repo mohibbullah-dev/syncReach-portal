@@ -50,7 +50,7 @@ export function AdminStatCard({
   return (
     <div
       className={cn(
-        "group relative overflow-hidden rounded-[1.35rem] border border-slate-200/70 bg-gradient-to-br p-5",
+        "group relative overflow-hidden rounded-[12px] border border-slate-200/70 bg-gradient-to-br p-5",
         "shadow-[0_12px_40px_-24px_rgba(15,23,42,0.28)] transition duration-300",
         "hover:-translate-y-0.5 hover:shadow-[0_18px_44px_-22px_rgba(15,23,42,0.32)]",
         styles.card,
@@ -60,7 +60,7 @@ export function AdminStatCard({
       <div className="flex items-start justify-between gap-3">
         <div
           className={cn(
-            "flex h-12 w-12 items-center justify-center rounded-2xl transition group-hover:scale-105",
+            "flex h-12 w-12 items-center justify-center rounded-[12px] transition group-hover:scale-105",
             styles.icon,
           )}
         >

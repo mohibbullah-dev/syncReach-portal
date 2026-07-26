@@ -5,6 +5,7 @@ import {
   ChevronLeft,
   ChevronRight,
   FolderOpen,
+  HelpCircle,
   Images,
   LayoutDashboard,
   LogOut,
@@ -49,6 +50,7 @@ const BASE_NAV = [
   { to: "/media", label: "Media", icon: FolderOpen },
   { to: "/team", label: "Team", icon: Users },
   { to: "/pricing", label: "Pricing", icon: Tag },
+  { to: "/faq", label: "FAQ", icon: HelpCircle },
 ] as const;
 
 function NavLinks({
@@ -81,7 +83,7 @@ function NavLinks({
             to={item.to}
             onClick={onNavigate}
             className={cn(
-              "group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition",
+              "group relative flex items-center gap-3 rounded-[12px] px-3 py-2.5 text-sm font-medium transition",
               active
                 ? "bg-[#E8F0FF] text-[#0061FF]"
                 : "text-slate-600 hover:bg-slate-100 hover:text-slate-900",
@@ -129,14 +131,14 @@ function SidebarBody({
       <NavLinks collapsed={collapsed} onNavigate={onNavigate} />
 
       {!collapsed && (
-        <div className="mx-3 mb-3 mt-auto rounded-2xl border border-slate-200/80 bg-gradient-to-br from-[#E8F0FF] to-white p-4">
+        <div className="mx-3 mb-3 mt-auto rounded-[12px] border border-slate-200/80 bg-gradient-to-br from-[#E8F0FF] to-white p-4">
           <div className="text-sm font-semibold text-slate-900">Your website</div>
           <p className="mt-1 text-xs leading-relaxed text-slate-500">
             Changes you make here show up on the live SyncReach site.
           </p>
           <Button
             asChild
-            className="mt-3 h-9 w-full rounded-xl bg-[#0061FF] text-xs font-semibold hover:bg-[#0052D6]"
+            className="mt-3 h-9 w-full rounded-[12px] bg-[#0061FF] text-xs font-semibold hover:bg-[#0052D6]"
           >
             <a
               href={`${(import.meta.env.VITE_PUBLIC_SITE_URL || "http://localhost:8080").replace(/\/$/, "")}/?from=admin`}
@@ -154,7 +156,7 @@ function SidebarBody({
           type="button"
           onClick={onToggle}
           className={cn(
-            "mx-3 mb-4 flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-600 transition hover:bg-slate-50",
+            "mx-3 mb-4 flex items-center justify-center gap-2 rounded-[12px] border border-slate-200 bg-white px-3 py-2 text-sm text-slate-600 transition hover:bg-slate-50",
             collapsed && "mt-auto",
           )}
         >
@@ -214,7 +216,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
 
           <button
             type="button"
-            className="hidden rounded-lg p-2 text-slate-500 transition hover:bg-slate-100 lg:inline-flex"
+            className="hidden rounded-[12px] p-2 text-slate-500 transition hover:bg-slate-100 lg:inline-flex"
             onClick={() => setCollapsed((v) => !v)}
             aria-label="Toggle sidebar"
           >
@@ -225,9 +227,9 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
             <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
             <Input
               placeholder="Search reviews, gallery, media…"
-              className="h-10 rounded-full border-slate-200 bg-slate-50 pl-10 pr-12 text-sm shadow-none focus-visible:ring-[#0061FF]/30"
+              className="h-10 rounded-[12px] border-slate-200 bg-slate-50 pl-10 pr-12 text-sm shadow-none focus-visible:ring-[#0061FF]/30"
             />
-            <kbd className="pointer-events-none absolute right-3 top-1/2 hidden -translate-y-1/2 rounded-md border border-slate-200 bg-white px-1.5 py-0.5 text-[10px] font-medium text-slate-400 sm:inline">
+            <kbd className="pointer-events-none absolute right-3 top-1/2 hidden -translate-y-1/2 rounded-[12px] border border-slate-200 bg-white px-1.5 py-0.5 text-[10px] font-medium text-slate-400 sm:inline">
               /
             </kbd>
           </div>
@@ -236,7 +238,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
             <Button
               variant="ghost"
               size="icon"
-              className="relative rounded-full text-slate-500 hover:bg-slate-100"
+              className="relative rounded-[12px] text-slate-500 hover:bg-slate-100"
             >
               <Bell className="h-5 w-5" />
               <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-[#0061FF] ring-2 ring-white" />
@@ -246,7 +248,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
               <DropdownMenuTrigger asChild>
                 <button
                   type="button"
-                  className="flex items-center gap-2.5 rounded-full border border-slate-200 bg-white py-1 pl-1 pr-3 transition hover:bg-slate-50"
+                  className="flex items-center gap-2.5 rounded-[12px] border border-slate-200 bg-white py-1 pl-1 pr-3 transition hover:bg-slate-50"
                 >
                   <AdminUserAvatar
                     name={user?.name}

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import {
+  Image as ImageIcon,
   Loader2,
-  Mic,
   Star,
   Trash2,
   Type,
@@ -31,7 +31,7 @@ import { cn } from "@/lib/utils";
 
 const TYPES: Array<{ id: ReviewType; label: string; icon: typeof Type; hint: string }> = [
   { id: "text", label: "Text", icon: Type, hint: "Quote only" },
-  { id: "audio", label: "Audio", icon: Mic, hint: "MP3 / URL" },
+  { id: "image", label: "Image", icon: ImageIcon, hint: "Photo / URL" },
   { id: "video", label: "Video", icon: Video, hint: "MP4 / URL" },
 ];
 
@@ -53,7 +53,7 @@ const emptyValues = (): ReviewFormValues => ({
 function fromReview(review: Review): ReviewFormValues {
   return {
     id: review.id,
-    type: review.type,
+    type: review.type === ("audio" as ReviewType) ? "image" : review.type,
     name: review.name,
     username: review.username,
     role: review.role,
@@ -150,8 +150,8 @@ export function ReviewFormDialog({
       setError("Please add a longer quote / caption.");
       return;
     }
-    if ((values.type === "audio" || values.type === "video") && !values.mediaUrl?.trim()) {
-      setError("Upload a file or paste a media URL for audio/video reviews.");
+    if ((values.type === "image" || values.type === "video") && !values.mediaUrl?.trim()) {
+      setError("Upload a file or paste a media URL for image/video reviews.");
       return;
     }
 
@@ -187,14 +187,14 @@ export function ReviewFormDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[92vh] overflow-y-auto rounded-2xl border-slate-200 p-0 sm:max-w-xl">
+      <DialogContent className="max-h-[92vh] overflow-y-auto rounded-[12px] border-slate-200 p-0 sm:max-w-xl">
         <div className="border-b border-slate-100 bg-gradient-to-br from-[#E8F0FF] via-white to-white px-6 py-5">
           <DialogHeader>
             <DialogTitle className="font-display text-xl text-slate-900">
               {editing ? "Edit review" : "Add review"}
             </DialogTitle>
             <DialogDescription>
-              Text, audio, or video testimonials for the public site.
+              Text, image, or video testimonials for the public site.
             </DialogDescription>
           </DialogHeader>
         </div>
@@ -212,7 +212,7 @@ export function ReviewFormDialog({
                     type="button"
                     onClick={() => set("type", t.id)}
                     className={cn(
-                      "rounded-xl border px-3 py-3 text-left transition",
+                      "rounded-[12px] border px-3 py-3 text-left transition",
                       active
                         ? "border-[#0061FF] bg-[#E8F0FF] shadow-sm"
                         : "border-slate-200 bg-white hover:border-slate-300",
@@ -235,7 +235,7 @@ export function ReviewFormDialog({
                 value={values.name}
                 onChange={(e) => set("name", e.target.value)}
                 placeholder="Amina Rahman"
-                className="h-11 rounded-xl"
+                className="h-11 rounded-[12px]"
                 required
               />
             </div>
@@ -246,7 +246,7 @@ export function ReviewFormDialog({
                 value={values.username}
                 onChange={(e) => set("username", e.target.value)}
                 placeholder="@amina"
-                className="h-11 rounded-xl"
+                className="h-11 rounded-[12px]"
               />
             </div>
           </div>
@@ -258,14 +258,14 @@ export function ReviewFormDialog({
               value={values.role}
               onChange={(e) => set("role", e.target.value)}
               placeholder="Head of Growth · SaaS agency"
-              className="h-11 rounded-xl"
+              className="h-11 rounded-[12px]"
             />
           </div>
 
           <div className="space-y-2">
             <Label>Avatar</Label>
             <div className="flex items-center gap-3">
-              <div className="flex h-14 w-14 items-center justify-center overflow-hidden rounded-full border border-slate-200 bg-slate-100">
+              <div className="flex h-14 w-14 items-center justify-center overflow-hidden rounded-[12px] border border-slate-200 bg-slate-100">
                 {isRealProfileImage(values.avatar) ? (
                   <img src={values.avatar} alt="" className="h-full w-full object-cover" />
                 ) : (
@@ -277,7 +277,7 @@ export function ReviewFormDialog({
                   value={values.avatar}
                   onChange={(e) => set("avatar", e.target.value)}
                   placeholder="https://… or upload"
-                  className="h-10 rounded-xl"
+                  className="h-10 rounded-[12px]"
                 />
                 <label className="inline-flex cursor-pointer items-center gap-2 text-xs font-medium text-[#0061FF]">
                   <Upload className="h-3.5 w-3.5" />
@@ -300,34 +300,43 @@ export function ReviewFormDialog({
               value={values.body}
               onChange={(e) => set("body", e.target.value)}
               placeholder="What did they say about SyncReach?"
-              className="min-h-28 rounded-xl"
+              className="min-h-28 rounded-[12px]"
               required
             />
           </div>
 
-          {(values.type === "audio" || values.type === "video") && (
-            <div className="space-y-3 rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
+          {(values.type === "image" || values.type === "video") && (
+            <div className="space-y-3 rounded-[12px] border border-slate-200 bg-slate-50/80 p-4">
               <div className="space-y-2">
                 <Label htmlFor="rev-media">
-                  {values.type === "audio" ? "Audio URL / file" : "Video URL / file"}
+                  {values.type === "image" ? "Review image" : "Video URL / file"}
                 </Label>
+                {values.type === "image" && values.mediaUrl ? (
+                  <div className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
+                    <img
+                      src={values.mediaUrl}
+                      alt=""
+                      className="max-h-44 w-full object-cover"
+                    />
+                  </div>
+                ) : null}
                 <Input
                   id="rev-media"
                   value={values.mediaUrl}
                   onChange={(e) => set("mediaUrl", e.target.value)}
                   placeholder={
-                    values.type === "audio"
-                      ? "https://…/clip.mp3"
-                      : "https://…/clip.mp4 or YouTube later"
+                    values.type === "image"
+                      ? "https://…/photo.jpg"
+                      : "https://…/clip.mp4"
                   }
-                  className="h-11 rounded-xl bg-white"
+                  className="h-11 rounded-[12px] bg-white"
                 />
                 <label className="inline-flex cursor-pointer items-center gap-2 text-xs font-medium text-[#0061FF]">
                   <Upload className="h-3.5 w-3.5" />
-                  Upload {values.type} file
+                  Upload {values.type === "image" ? "image" : "video"}
                   <input
                     type="file"
-                    accept={values.type === "audio" ? "audio/*" : "video/*"}
+                    accept={values.type === "image" ? "image/*" : "video/*"}
                     className="hidden"
                     onChange={(e) => void onPickMedia(e.target.files?.[0] ?? null)}
                   />
@@ -342,7 +351,7 @@ export function ReviewFormDialog({
                     value={values.thumbnailUrl}
                     onChange={(e) => set("thumbnailUrl", e.target.value)}
                     placeholder="https://…/cover.jpg"
-                    className="h-11 rounded-xl bg-white"
+                    className="h-11 rounded-[12px] bg-white"
                   />
                   <label className="inline-flex cursor-pointer items-center gap-2 text-xs font-medium text-[#0061FF]">
                     <Upload className="h-3.5 w-3.5" />
@@ -359,10 +368,10 @@ export function ReviewFormDialog({
             </div>
           )}
 
-          <div className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-slate-200 px-4 py-3">
+          <div className="flex flex-wrap items-center justify-between gap-4 rounded-[12px] border border-slate-200 px-4 py-3">
             <div>
               <div className="text-sm font-medium text-slate-900">Featured on homepage</div>
-              <div className="text-xs text-slate-500">Show in the 3D marquee</div>
+              <div className="text-xs text-slate-500">Show in the reviews marquee</div>
             </div>
             <Switch checked={values.featured} onCheckedChange={(v) => set("featured", v)} />
           </div>
@@ -375,7 +384,7 @@ export function ReviewFormDialog({
                   key={n}
                   type="button"
                   onClick={() => set("rating", n)}
-                  className="rounded-lg p-1.5 transition hover:bg-amber-50"
+                  className="rounded-[12px] p-1.5 transition hover:bg-amber-50"
                   aria-label={`${n} stars`}
                 >
                   <Star
@@ -390,7 +399,7 @@ export function ReviewFormDialog({
           </div>
 
           {error && (
-            <div className="rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-600">
+            <div className="rounded-[12px] border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-600">
               {error}
             </div>
           )}
@@ -414,13 +423,13 @@ export function ReviewFormDialog({
               <span />
             )}
             <div className="ml-auto flex gap-2">
-              <Button type="button" variant="outline" className="rounded-xl" onClick={() => onOpenChange(false)}>
+              <Button type="button" variant="outline" className="rounded-[12px]" onClick={() => onOpenChange(false)}>
                 Cancel
               </Button>
               <Button
                 type="submit"
                 disabled={busy}
-                className="rounded-xl bg-[#0061FF] hover:bg-[#0052D6]"
+                className="rounded-[12px] bg-[#0061FF] hover:bg-[#0052D6]"
               >
                 {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : editing ? "Save changes" : "Create review"}
               </Button>

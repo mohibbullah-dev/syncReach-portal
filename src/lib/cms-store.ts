@@ -3,6 +3,7 @@
  */
 
 import type { ContactMessage } from "@/data/contact";
+import type { FaqItem } from "@/data/faq";
 import type { GalleryItem } from "@/data/gallery";
 import type { PricingPlan } from "@/data/pricing";
 import type { Review } from "@/data/reviews";
@@ -13,7 +14,11 @@ import { sanitizeProfileImage } from "@/lib/profile-image";
 
 export async function getCmsReviews(): Promise<Review[]> {
   const items = (await apiFetch("/reviews")) as Review[];
-  return items.map((r) => ({ ...r, avatar: sanitizeProfileImage(r.avatar) }));
+  return items.map((r) => ({
+    ...r,
+    type: ((r.type as string) === "audio" ? "image" : r.type) as Review["type"],
+    avatar: sanitizeProfileImage(r.avatar),
+  }));
 }
 
 export async function upsertCmsReview(review: Review): Promise<Review[]> {
@@ -70,6 +75,26 @@ export async function upsertCmsTeamMember(member: TeamMember): Promise<TeamMembe
 export async function deleteCmsTeamMember(id: string): Promise<TeamMember[]> {
   await apiFetch(`/team/${id}`, { method: "DELETE" });
   return getCmsTeam();
+}
+
+export async function getCmsFaq(): Promise<FaqItem[]> {
+  return apiFetch("/faq") as Promise<FaqItem[]>;
+}
+
+export async function upsertCmsFaqItem(item: FaqItem): Promise<FaqItem[]> {
+  const { id, ...rest } = item;
+  const isNew = !id || id.startsWith("f_");
+  if (isNew) {
+    await apiFetch("/faq", { method: "POST", body: JSON.stringify(rest) });
+  } else {
+    await apiFetch(`/faq/${id}`, { method: "PUT", body: JSON.stringify(rest) });
+  }
+  return getCmsFaq();
+}
+
+export async function deleteCmsFaqItem(id: string): Promise<FaqItem[]> {
+  await apiFetch(`/faq/${id}`, { method: "DELETE" });
+  return getCmsFaq();
 }
 
 export async function getCmsPricing(): Promise<PricingPlan[]> {

@@ -1,6 +1,6 @@
 ﻿import { useEffect, useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { Mic, Plus, Search, Star, Type, Video } from "lucide-react";
+import { Image as ImageIcon, Plus, Search, Star, Type, Video } from "lucide-react";
 
 import { ReviewFormDialog } from "@/components/admin/ReviewFormDialog";
 import { ProfileAvatar } from "@/components/ProfileAvatar";
@@ -30,12 +30,12 @@ export const Route = createFileRoute("/reviews")({
 const filters: Array<{ id: "all" | ReviewType; label: string }> = [
   { id: "all", label: "All" },
   { id: "text", label: "Text" },
-  { id: "audio", label: "Audio" },
+  { id: "image", label: "Image" },
   { id: "video", label: "Video" },
 ];
 
 function TypeIcon({ type }: { type: ReviewType }) {
-  if (type === "audio") return <Mic className="h-3.5 w-3.5" />;
+  if (type === "image") return <ImageIcon className="h-3.5 w-3.5" />;
   if (type === "video") return <Video className="h-3.5 w-3.5" />;
   return <Type className="h-3.5 w-3.5" />;
 }
@@ -82,25 +82,25 @@ function AdminReviewsPage() {
         <div>
           <h1 className="font-display text-2xl font-bold tracking-tight text-slate-900">Reviews</h1>
           <p className="mt-1 text-sm text-slate-500">
-            Manage text, audio, and video testimonials for the public site.
+            Manage text, image, and video testimonials for the public site.
           </p>
         </div>
         <Button
           onClick={openCreate}
-          className="rounded-xl bg-[#0061FF] hover:bg-[#0052D6]"
+          className="rounded-[12px] bg-[#0061FF] hover:bg-[#0052D6]"
         >
           <Plus className="mr-1.5 h-4 w-4" /> Add review
         </Button>
       </div>
 
-      <div className="flex flex-col gap-3 rounded-2xl border border-slate-200/80 bg-white p-4 shadow-[0_8px_30px_-18px_rgba(15,23,42,0.18)] sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-3 rounded-[12px] border border-slate-200/80 bg-white p-4 shadow-[0_8px_30px_-18px_rgba(15,23,42,0.18)] sm:flex-row sm:items-center sm:justify-between">
         <div className="relative w-full max-w-sm">
           <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
           <Input
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Search reviews…"
-            className="h-10 rounded-xl border-slate-200 bg-slate-50 pl-9"
+            className="h-10 rounded-[12px] border-slate-200 bg-slate-50 pl-9"
           />
         </div>
         <div className="flex flex-wrap gap-2">
@@ -110,7 +110,7 @@ function AdminReviewsPage() {
               type="button"
               onClick={() => setFilter(f.id)}
               className={cn(
-                "rounded-full px-3.5 py-1.5 text-sm font-medium transition",
+                "rounded-[12px] px-3.5 py-1.5 text-sm font-medium transition",
                 filter === f.id
                   ? "bg-[#0061FF] text-white"
                   : "bg-slate-100 text-slate-600 hover:bg-slate-200",
@@ -122,7 +122,7 @@ function AdminReviewsPage() {
         </div>
       </div>
 
-      <div className="overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-[0_8px_30px_-18px_rgba(15,23,42,0.18)]">
+      <div className="overflow-hidden rounded-[12px] border border-slate-200/80 bg-white shadow-[0_8px_30px_-18px_rgba(15,23,42,0.18)]">
         <Table>
           <TableHeader>
             <TableRow className="bg-slate-50/80 hover:bg-slate-50/80">
@@ -154,7 +154,7 @@ function AdminReviewsPage() {
                     </div>
                   </TableCell>
                   <TableCell>
-                    <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium capitalize text-slate-600">
+                    <span className="inline-flex items-center gap-1.5 rounded-[12px] bg-slate-100 px-2.5 py-1 text-xs font-medium capitalize text-slate-600">
                       <TypeIcon type={r.type} />
                       {r.type}
                     </span>
@@ -170,11 +170,11 @@ function AdminReviewsPage() {
                   </TableCell>
                   <TableCell>
                     {r.featured ? (
-                      <Badge className="rounded-md bg-[#E8F0FF] text-[#0061FF] hover:bg-[#E8F0FF]">
+                      <Badge className="rounded-[12px] bg-[#E8F0FF] text-[#0061FF] hover:bg-[#E8F0FF]">
                         Featured
                       </Badge>
                     ) : (
-                      <Badge variant="secondary" className="rounded-md">
+                      <Badge variant="secondary" className="rounded-[12px]">
                         Listed
                       </Badge>
                     )}
