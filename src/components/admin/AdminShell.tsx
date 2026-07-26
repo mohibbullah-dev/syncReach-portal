@@ -23,6 +23,7 @@ import { AdminUserAvatar } from "@/components/admin/AdminUserAvatar";
 import { useAdminAuth } from "@/components/admin/AdminAuthProvider";
 import markUrl from "@/assets/syncreach-mark.png";
 import { isSuperAdmin, roleLabel } from "@/lib/admin-auth";
+import { getPublicSiteUrl } from "@/lib/public-site-url";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -141,7 +142,7 @@ function SidebarBody({
             className="mt-3 h-9 w-full rounded-[12px] bg-[#0061FF] text-xs font-semibold hover:bg-[#0052D6]"
           >
             <a
-              href={`${(import.meta.env.VITE_PUBLIC_SITE_URL || "http://localhost:8080").replace(/\/$/, "")}/?from=admin`}
+              href={`${getPublicSiteUrl()}/?from=admin`}
               target="_blank"
               rel="noreferrer"
             >
