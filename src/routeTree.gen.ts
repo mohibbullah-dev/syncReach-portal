@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as GalleryRouteImport } from './routes/gallery'
+import { Route as HeroRouteImport } from './routes/hero'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as MediaRouteImport } from './routes/media'
 import { Route as MessagesRouteImport } from './routes/messages'
@@ -36,6 +37,11 @@ const FaqRoute = FaqRouteImport.update({
 const GalleryRoute = GalleryRouteImport.update({
   id: '/gallery',
   path: '/gallery',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HeroRoute = HeroRouteImport.update({
+  id: '/hero',
+  path: '/hero',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -93,6 +99,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/faq': typeof FaqRoute
   '/gallery': typeof GalleryRoute
+  '/hero': typeof HeroRoute
   '/login': typeof LoginRoute
   '/media': typeof MediaRoute
   '/messages': typeof MessagesRoute
@@ -108,6 +115,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/faq': typeof FaqRoute
   '/gallery': typeof GalleryRoute
+  '/hero': typeof HeroRoute
   '/login': typeof LoginRoute
   '/media': typeof MediaRoute
   '/messages': typeof MessagesRoute
@@ -124,6 +132,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/faq': typeof FaqRoute
   '/gallery': typeof GalleryRoute
+  '/hero': typeof HeroRoute
   '/login': typeof LoginRoute
   '/media': typeof MediaRoute
   '/messages': typeof MessagesRoute
@@ -141,6 +150,7 @@ export interface FileRouteTypes {
     | '/'
     | '/faq'
     | '/gallery'
+    | '/hero'
     | '/login'
     | '/media'
     | '/messages'
@@ -156,6 +166,7 @@ export interface FileRouteTypes {
     | '/'
     | '/faq'
     | '/gallery'
+    | '/hero'
     | '/login'
     | '/media'
     | '/messages'
@@ -171,6 +182,7 @@ export interface FileRouteTypes {
     | '/'
     | '/faq'
     | '/gallery'
+    | '/hero'
     | '/login'
     | '/media'
     | '/messages'
@@ -187,6 +199,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   FaqRoute: typeof FaqRoute
   GalleryRoute: typeof GalleryRoute
+  HeroRoute: typeof HeroRoute
   LoginRoute: typeof LoginRoute
   MediaRoute: typeof MediaRoute
   MessagesRoute: typeof MessagesRoute
@@ -220,6 +233,13 @@ declare module '@tanstack/react-router' {
       path: '/gallery'
       fullPath: '/gallery'
       preLoaderRoute: typeof GalleryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hero': {
+      id: '/hero'
+      path: '/hero'
+      fullPath: '/hero'
+      preLoaderRoute: typeof HeroRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -299,6 +319,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   FaqRoute: FaqRoute,
   GalleryRoute: GalleryRoute,
+  HeroRoute: HeroRoute,
   LoginRoute: LoginRoute,
   MediaRoute: MediaRoute,
   MessagesRoute: MessagesRoute,

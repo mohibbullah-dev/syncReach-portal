@@ -6,6 +6,7 @@ import {
   ChevronRight,
   FolderOpen,
   HelpCircle,
+  Home,
   Images,
   LayoutDashboard,
   LogOut,
@@ -45,6 +46,7 @@ import {
 
 const BASE_NAV = [
   { to: "/", label: "Dashboard", icon: LayoutDashboard, exact: true },
+  { to: "/hero", label: "Hero", icon: Home },
   { to: "/messages", label: "Messages", icon: Mail },
   { to: "/reviews", label: "Reviews", icon: MessageSquareQuote },
   { to: "/gallery", label: "Gallery", icon: Images },

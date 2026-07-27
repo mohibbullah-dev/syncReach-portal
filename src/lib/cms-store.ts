@@ -4,6 +4,7 @@
 
 import type { ContactMessage } from "@/data/contact";
 import type { FaqItem } from "@/data/faq";
+import type { HeroContent } from "@/data/hero";
 import type { GalleryItem } from "@/data/gallery";
 import type { PricingPlan } from "@/data/pricing";
 import type { Review } from "@/data/reviews";
@@ -95,6 +96,17 @@ export async function upsertCmsFaqItem(item: FaqItem): Promise<FaqItem[]> {
 export async function deleteCmsFaqItem(id: string): Promise<FaqItem[]> {
   await apiFetch(`/faq/${id}`, { method: "DELETE" });
   return getCmsFaq();
+}
+
+export async function getCmsHero(): Promise<HeroContent> {
+  return apiFetch("/hero") as Promise<HeroContent>;
+}
+
+export async function upsertCmsHero(hero: HeroContent): Promise<HeroContent> {
+  return apiFetch("/hero", {
+    method: "PUT",
+    body: JSON.stringify(hero),
+  }) as Promise<HeroContent>;
 }
 
 export async function getCmsPricing(): Promise<PricingPlan[]> {
