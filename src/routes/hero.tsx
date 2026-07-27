@@ -1,16 +1,24 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { Image as ImageIcon, Loader2, Sparkles, Upload, Video } from "lucide-react";
+import {
+  CheckCircle2,
+  Image as ImageIcon,
+  Loader2,
+  Sparkles,
+  Type,
+  Video,
+} from "lucide-react";
 import { toast } from "sonner";
 
+import { HeroSlidesEditor } from "@/components/admin/HeroSlidesEditor";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
-import { defaultHeroContent, type HeroContent, type HeroMediaType } from "@/data/hero";
+import { defaultHeroContent, type HeroContent } from "@/data/hero";
 import { getCmsHero, upsertCmsHero } from "@/lib/cms-store";
-import { uploadToCloudinary } from "@/lib/cloudinary-upload";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/hero")({
@@ -34,37 +42,11 @@ function AdminHeroPage() {
     setValues((v) => ({ ...v, [key]: value }));
   };
 
-  const onPickMedia = async (file: File | null) => {
-    if (!file) return;
-    try {
-      setBusy(true);
-      const folder = values.mediaType === "video" ? "hero/videos" : "hero/images";
-      const { url } = await uploadToCloudinary(file, folder);
-      set("mediaUrl", url);
-      if (file.type.startsWith("image/") && values.mediaType === "video" && !values.posterUrl) {
-        set("posterUrl", url);
-      }
-      toast.success("Media uploaded");
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "Upload failed");
-    } finally {
-      setBusy(false);
-    }
-  };
-
-  const onPickPoster = async (file: File | null) => {
-    if (!file) return;
-    try {
-      setBusy(true);
-      const { url } = await uploadToCloudinary(file, "hero/posters");
-      set("posterUrl", url);
-      toast.success("Poster uploaded");
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "Upload failed");
-    } finally {
-      setBusy(false);
-    }
-  };
+  const slideStats = useMemo(() => {
+    const images = values.slides.filter((s) => s.type === "image").length;
+    const videos = values.slides.filter((s) => s.type === "video").length;
+    return { images, videos, total: values.slides.length };
+  }, [values.slides]);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -89,10 +71,6 @@ function AdminHeroPage() {
     }
   };
 
-  const previewPoster =
-    values.posterUrl ||
-    (values.mediaType === "image" ? values.mediaUrl : "");
-
   if (loading) {
     return (
       <div className="flex min-h-[40vh] items-center justify-center text-sm text-slate-500">
@@ -103,151 +81,113 @@ function AdminHeroPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="font-display text-2xl font-bold tracking-tight text-slate-900">Hero section</h1>
-        <p className="mt-1 text-sm text-slate-500">
-          Edit the homepage hero headline, description, and right-side media. Layout and colors stay fixed on the site.
-        </p>
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <h1 className="font-display text-2xl font-bold tracking-tight text-slate-900">Hero section</h1>
+          <p className="mt-1 max-w-2xl text-sm text-slate-500">
+            Homepage headline, description, and right-side carousel. Layout and brand colors stay fixed on the live site.
+          </p>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <Badge variant="secondary" className="rounded-[12px] bg-slate-100 text-slate-600 hover:bg-slate-100">
+            {slideStats.total} slides
+          </Badge>
+          {slideStats.images > 0 ? (
+            <Badge variant="secondary" className="rounded-[12px] bg-sky-50 text-sky-700 hover:bg-sky-50">
+              {slideStats.images} image{slideStats.images === 1 ? "" : "s"}
+            </Badge>
+          ) : null}
+          {slideStats.videos > 0 ? (
+            <Badge variant="secondary" className="rounded-[12px] bg-violet-50 text-violet-700 hover:bg-violet-50">
+              {slideStats.videos} video{slideStats.videos === 1 ? "" : "s"}
+            </Badge>
+          ) : null}
+        </div>
       </div>
 
-      <form onSubmit={submit} className="grid gap-6 xl:grid-cols-[1fr_320px]">
+      <form onSubmit={submit} className="grid gap-6 xl:grid-cols-[1fr_300px]">
         <div className="space-y-6">
-          <section className="rounded-[12px] border border-slate-200/80 bg-white p-6 shadow-[0_8px_30px_-18px_rgba(15,23,42,0.18)]">
-            <h2 className="text-sm font-semibold text-slate-900">Headline</h2>
-            <p className="mt-1 text-xs text-slate-500">
-              The highlighted phrase stays blue on the live site.
-            </p>
-            <div className="mt-4 grid gap-4 sm:grid-cols-2">
-              <div className="space-y-2">
-                <Label htmlFor="headlineBefore">Line 1 (before highlight)</Label>
-                <Input
-                  id="headlineBefore"
-                  value={values.headlineBefore}
-                  onChange={(e) => set("headlineBefore", e.target.value)}
-                  placeholder="We bring"
-                  className="rounded-[12px]"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="headlineHighlight">Highlighted text (blue)</Label>
-                <Input
-                  id="headlineHighlight"
-                  value={values.headlineHighlight}
-                  onChange={(e) => set("headlineHighlight", e.target.value)}
-                  placeholder="the leads."
-                  className="rounded-[12px] text-[#0061FF]"
-                />
-              </div>
-            </div>
-            <div className="mt-4 space-y-2">
-              <Label htmlFor="headlineLine2">Line 2</Label>
-              <Input
-                id="headlineLine2"
-                value={values.headlineLine2}
-                onChange={(e) => set("headlineLine2", e.target.value)}
-                placeholder="You close the deal."
-                className="rounded-[12px]"
-              />
-            </div>
-            <div className="mt-4 rounded-[12px] border border-slate-100 bg-slate-50/80 p-4">
-              <p className="text-[11px] font-medium uppercase tracking-wide text-slate-400">Preview</p>
-              <p className="mt-2 font-display text-xl font-extrabold tracking-tight text-slate-900">
-                {values.headlineBefore}{" "}
-                <span className="text-[#0061FF]">{values.headlineHighlight}</span>
-              </p>
-              <p className="mt-1 font-display text-xl font-extrabold tracking-tight text-slate-900">
-                {values.headlineLine2}
-              </p>
-            </div>
-          </section>
-
-          <section className="rounded-[12px] border border-slate-200/80 bg-white p-6 shadow-[0_8px_30px_-18px_rgba(15,23,42,0.18)]">
-            <h2 className="text-sm font-semibold text-slate-900">Description</h2>
-            <div className="mt-4 space-y-2">
-              <Label htmlFor="description">Paragraph under headline</Label>
-              <Textarea
-                id="description"
-                value={values.description}
-                onChange={(e) => set("description", e.target.value)}
-                rows={5}
-                className="rounded-[12px] resize-y"
-              />
-            </div>
-          </section>
-
-          <section className="rounded-[12px] border border-slate-200/80 bg-white p-6 shadow-[0_8px_30px_-18px_rgba(15,23,42,0.18)]">
-            <h2 className="text-sm font-semibold text-slate-900">Right-side media</h2>
-            <div className="mt-4 flex gap-2">
-              {(["video", "image"] as HeroMediaType[]).map((type) => (
-                <button
-                  key={type}
-                  type="button"
-                  onClick={() => set("mediaType", type)}
-                  className={cn(
-                    "inline-flex flex-1 items-center justify-center gap-2 rounded-[12px] border px-4 py-2.5 text-sm font-medium transition",
-                    values.mediaType === type
-                      ? "border-[#0061FF] bg-[#E8F0FF] text-[#0061FF]"
-                      : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50",
-                  )}
-                >
-                  {type === "video" ? <Video className="h-4 w-4" /> : <ImageIcon className="h-4 w-4" />}
-                  {type === "video" ? "Video" : "Image"}
-                </button>
-              ))}
-            </div>
-
-            <div className="mt-4 space-y-2">
-              <Label htmlFor="mediaUrl">
-                {values.mediaType === "video" ? "Video URL" : "Image URL"}
-              </Label>
-              <div className="flex gap-2">
-                <Input
-                  id="mediaUrl"
-                  value={values.mediaUrl}
-                  onChange={(e) => set("mediaUrl", e.target.value)}
-                  placeholder={values.mediaType === "video" ? "https://…/hero.mp4" : "https://…/hero.jpg"}
-                  className="rounded-[12px]"
-                />
-                <label className="inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-[12px] border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-700 hover:bg-slate-50">
-                  <Upload className="h-3.5 w-3.5" />
-                  Upload
-                  <input
-                    type="file"
-                    accept={values.mediaType === "video" ? "video/*" : "image/*"}
-                    className="sr-only"
-                    disabled={busy}
-                    onChange={(e) => void onPickMedia(e.target.files?.[0] ?? null)}
-                  />
-                </label>
+          <section className="rounded-[12px] border border-slate-200/80 bg-white shadow-[0_8px_30px_-18px_rgba(15,23,42,0.18)]">
+            <div className="flex items-center gap-2 border-b border-slate-100 px-5 py-4 sm:px-6">
+              <span className="flex h-8 w-8 items-center justify-center rounded-[12px] bg-[#E8F0FF] text-[#0061FF]">
+                <Type className="h-4 w-4" />
+              </span>
+              <div>
+                <h2 className="text-sm font-semibold text-slate-900">Headline & description</h2>
+                <p className="text-xs text-slate-500">Left side copy on the homepage hero</p>
               </div>
             </div>
 
-            {values.mediaType === "video" ? (
-              <div className="mt-4 space-y-2">
-                <Label htmlFor="posterUrl">Video poster / thumbnail</Label>
-                <div className="flex gap-2">
+            <div className="space-y-5 p-5 sm:p-6">
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="space-y-2">
+                  <Label htmlFor="headlineBefore">Line 1 (before highlight)</Label>
                   <Input
-                    id="posterUrl"
-                    value={values.posterUrl}
-                    onChange={(e) => set("posterUrl", e.target.value)}
-                    placeholder="https://…/poster.jpg"
+                    id="headlineBefore"
+                    value={values.headlineBefore}
+                    onChange={(e) => set("headlineBefore", e.target.value)}
+                    placeholder="We bring"
                     className="rounded-[12px]"
                   />
-                  <label className="inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-[12px] border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-700 hover:bg-slate-50">
-                    <Upload className="h-3.5 w-3.5" />
-                    Upload
-                    <input
-                      type="file"
-                      accept="image/*"
-                      className="sr-only"
-                      disabled={busy}
-                      onChange={(e) => void onPickPoster(e.target.files?.[0] ?? null)}
-                    />
-                  </label>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="headlineHighlight">Highlighted text (blue)</Label>
+                  <Input
+                    id="headlineHighlight"
+                    value={values.headlineHighlight}
+                    onChange={(e) => set("headlineHighlight", e.target.value)}
+                    placeholder="the leads."
+                    className="rounded-[12px] font-medium text-[#0061FF]"
+                  />
                 </div>
               </div>
-            ) : null}
+
+              <div className="space-y-2">
+                <Label htmlFor="headlineLine2">Line 2</Label>
+                <Input
+                  id="headlineLine2"
+                  value={values.headlineLine2}
+                  onChange={(e) => set("headlineLine2", e.target.value)}
+                  placeholder="You close the deal."
+                  className="rounded-[12px]"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <div className="flex items-center justify-between gap-2">
+                  <Label htmlFor="description">Description</Label>
+                  <span className="text-[11px] text-slate-400">{values.description.length} chars</span>
+                </div>
+                <Textarea
+                  id="description"
+                  value={values.description}
+                  onChange={(e) => set("description", e.target.value)}
+                  rows={4}
+                  className="rounded-[12px] resize-y"
+                />
+              </div>
+
+              <div className="rounded-[12px] border border-[#0061FF]/15 bg-gradient-to-br from-[#E8F0FF]/50 to-white p-4">
+                <p className="text-[11px] font-medium uppercase tracking-wide text-[#0061FF]/70">Live preview</p>
+                <p className="mt-2 font-display text-xl font-extrabold tracking-tight text-slate-900 sm:text-2xl">
+                  {values.headlineBefore}{" "}
+                  <span className="text-[#0061FF]">{values.headlineHighlight}</span>
+                </p>
+                <p className="mt-1 font-display text-xl font-extrabold tracking-tight text-slate-900 sm:text-2xl">
+                  {values.headlineLine2}
+                </p>
+                <p className="mt-3 text-sm leading-relaxed text-slate-600 line-clamp-3">{values.description}</p>
+              </div>
+            </div>
           </section>
+
+          <HeroSlidesEditor
+            values={values}
+            busy={busy}
+            onChange={setValues}
+            onBusyChange={setBusy}
+            onError={setError}
+          />
         </div>
 
         <aside className="space-y-4 xl:sticky xl:top-6 xl:self-start">
@@ -255,14 +195,28 @@ function AdminHeroPage() {
             <div className="flex items-center justify-between gap-3">
               <div>
                 <p className="text-sm font-semibold text-slate-900">Publish</p>
-                <p className="text-xs text-slate-500">Show CMS hero on live site</p>
+                <p className="text-xs text-slate-500">Show on live homepage</p>
               </div>
               <Switch
                 checked={values.published}
                 onCheckedChange={(checked) => set("published", checked)}
               />
             </div>
-            {error ? <p className="mt-4 text-sm text-red-600">{error}</p> : null}
+
+            <ul className="mt-4 space-y-2 text-xs text-slate-600">
+              <StatusRow ok={Boolean(values.headlineBefore && values.headlineHighlight && values.headlineLine2)}>
+                Headline complete
+              </StatusRow>
+              <StatusRow ok={Boolean(values.description.trim())}>Description added</StatusRow>
+              <StatusRow ok={slideStats.total > 0}>
+                {slideStats.total > 0 ? `${slideStats.total} slide(s) ready` : "Add at least 1 slide"}
+              </StatusRow>
+            </ul>
+
+            {error ? (
+              <p className="mt-4 rounded-[12px] bg-red-50 px-3 py-2 text-sm text-red-600">{error}</p>
+            ) : null}
+
             <Button
               type="submit"
               disabled={busy}
@@ -273,22 +227,49 @@ function AdminHeroPage() {
             </Button>
           </div>
 
-          {previewPoster || values.mediaUrl ? (
-            <div className="overflow-hidden rounded-[12px] border border-slate-200/80 bg-white shadow-[0_8px_30px_-18px_rgba(15,23,42,0.18)]">
-              <p className="border-b border-slate-100 px-4 py-2 text-[11px] font-medium uppercase tracking-wide text-slate-400">
-                Media preview
-              </p>
-              {values.mediaType === "image" && values.mediaUrl ? (
-                <img src={values.mediaUrl} alt="" className="aspect-[16/10] w-full object-cover" />
-              ) : previewPoster ? (
-                <img src={previewPoster} alt="" className="aspect-[16/10] w-full object-cover" />
-              ) : values.mediaUrl ? (
-                <video src={values.mediaUrl} className="aspect-[16/10] w-full object-cover" muted playsInline />
+          {values.slides.length > 0 ? (
+            <div className="rounded-[12px] border border-slate-200/80 bg-white p-4 shadow-[0_8px_30px_-18px_rgba(15,23,42,0.18)]">
+              <p className="text-[11px] font-medium uppercase tracking-wide text-slate-400">Slide overview</p>
+              <div className="mt-3 grid grid-cols-3 gap-2">
+                {values.slides.slice(0, 6).map((slide, index) => {
+                  const src = slide.type === "image" ? slide.mediaUrl : slide.posterUrl || slide.mediaUrl;
+                  return (
+                    <div
+                      key={slide.id ?? `overview-${index}`}
+                      className="relative overflow-hidden rounded-[10px] border border-slate-200 bg-slate-50"
+                    >
+                      {src ? (
+                        <img src={src} alt="" className="aspect-[4/3] w-full object-cover" />
+                      ) : (
+                        <div className="flex aspect-[4/3] items-center justify-center text-slate-300">
+                          {slide.type === "video" ? <Video className="h-4 w-4" /> : <ImageIcon className="h-4 w-4" />}
+                        </div>
+                      )}
+                      <span className="absolute bottom-1 left-1 rounded-[6px] bg-black/60 px-1 text-[9px] font-medium text-white">
+                        {index + 1}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+              {values.slides.length > 6 ? (
+                <p className="mt-2 text-center text-[11px] text-slate-400">
+                  +{values.slides.length - 6} more
+                </p>
               ) : null}
             </div>
           ) : null}
         </aside>
       </form>
     </div>
+  );
+}
+
+function StatusRow({ ok, children }: { ok: boolean; children: React.ReactNode }) {
+  return (
+    <li className="flex items-center gap-2">
+      <CheckCircle2 className={cn("h-3.5 w-3.5 shrink-0", ok ? "text-emerald-500" : "text-slate-300")} />
+      <span className={ok ? "text-slate-700" : "text-slate-400"}>{children}</span>
+    </li>
   );
 }
